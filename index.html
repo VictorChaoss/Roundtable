@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Roundtable</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <div class="app-container">
+
+        <!-- Sidebar for Settings & Small Transcript -->
+        <aside class="sidebar glass-panel">
+            <div class="sidebar-header">
+                <h2><i class="fa-solid fa-layer-group"></i> Transcript</h2>
+                <button id="settings-btn" class="icon-btn" title="Settings">
+                    <i class="fa-solid fa-gear"></i>
+                </button>
+            </div>
+
+            <div class="transcript-container" id="transcript-container">
+                <div class="transcript-msg system">
+                    <em>Welcome to the AI Roundtable! Enter a prompt below to begin the discussion.</em>
+                </div>
+            </div>
+
+            <div class="sidebar-footer">
+                <button id="clear-chat-btn" class="icon-btn">
+                    <i class="fa-solid fa-trash-can"></i> Clear Table
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Roundtable Area -->
+        <main class="roundtable-area">
+
+            <div class="roundtable-wrapper">
+                <!-- The actual "Table" graphic -->
+                <div class="table-center">
+                    <div class="core-glow"></div>
+                </div>
+
+                <!-- AI Seats around the table -->
+                <!-- Top: ChatGPT -->
+                <div class="ai-seat pos-top" id="seat-chatgpt">
+                    <div class="avatar chatgpt"><i class="fa-solid fa-bolt"></i></div>
+                    <div class="ai-badge">ChatGPT <small>GPT-4o</small></div>
+                    <div class="status-indicator"></div>
+                    <div class="speech-bubble bubble-top" id="bubble-chatgpt">
+                        <div class="bubble-content"></div>
+                    </div>
+                </div>
+
+                <!-- Right: Claude -->
+                <div class="ai-seat pos-right" id="seat-claude">
+                    <div class="avatar claude"><i class="fa-solid fa-brain"></i></div>
+                    <div class="ai-badge">Claude <small>Sonnet 3.5</small></div>
+                    <div class="status-indicator"></div>
+                    <div class="speech-bubble bubble-right" id="bubble-claude">
+                        <div class="bubble-content"></div>
+                    </div>
+                </div>
+
+                <!-- Bottom: Gemini -->
+                <div class="ai-seat pos-bottom" id="seat-gemini">
+                    <div class="avatar gemini"><i class="fa-solid fa-sparkles"></i></div>
+                    <div class="ai-badge">Gemini <small>1.5 Pro</small></div>
+                    <div class="status-indicator"></div>
+                    <div class="speech-bubble bubble-bottom" id="bubble-gemini">
+                        <div class="bubble-content"></div>
+                    </div>
+                </div>
+
+                <!-- Left: Grok -->
+                <div class="ai-seat pos-left" id="seat-grok">
+                    <div class="avatar grok"><i class="fa-solid fa-x"></i></div>
+                    <div class="ai-badge">Grok <small>Beta</small></div>
+                    <div class="status-indicator"></div>
+                    <div class="speech-bubble bubble-left" id="bubble-grok">
+                        <div class="bubble-content"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Input Area -->
+            <div class="input-area glass-panel">
+                <textarea id="message-input" placeholder="Address the roundtable..." rows="1"></textarea>
+                <button id="send-btn" class="send-btn" disabled>
+                    <i class="fa-solid fa-paper-plane"></i>
+                </button>
+            </div>
+        </main>
+    </div>
+
+    <!-- Settings Modal -->
+    <div id="settings-modal" class="modal-overlay hidden">
+        <div class="modal glass-panel">
+            <div class="modal-header">
+                <h2>Settings</h2>
+                <button id="close-modal-btn" class="icon-btn"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="api-key-input">OpenRouter API Key (Optional)</label>
+                    <input type="password" id="api-key-input" placeholder="sk-or-v1-...">
+                    <small class="help-text">Leave blank to use mock responses.</small>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="save-settings-btn" class="primary-btn">Save Settings</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>
