@@ -12,6 +12,7 @@ const AI_MODELS = {
 let openRouterKey = localStorage.getItem(STORAGE_KEY) || '';
 let chatHistory = [];
 let isGenerating = false;
+let shouldStop = false;
 
 // DOM Elements
 const elements = {
@@ -23,7 +24,10 @@ const elements = {
     settingsModal: document.getElementById('settings-modal'),
     closeModalBtn: document.getElementById('close-modal-btn'),
     saveSettingsBtn: document.getElementById('save-settings-btn'),
-    apiKeyInput: document.getElementById('api-key-input')
+    apiKeyInput: document.getElementById('api-key-input'),
+    randomTopicBtn: document.getElementById('random-topic-btn'),
+    autopilotToggle: document.getElementById('autopilot-toggle'),
+    stopBtn: document.getElementById('stop-btn')
 };
 
 // Initialize
@@ -34,10 +38,8 @@ function init() {
     elements.clearChatBtn.addEventListener('click', clearChat);
 
     // New Features
-    elements.randomTopicBtn = document.getElementById('random-topic-btn');
-    elements.autopilotToggle = document.getElementById('autopilot-toggle');
-
     elements.randomTopicBtn.addEventListener('click', startRandomTopic);
+    elements.stopBtn.addEventListener('click', stopGeneration);
 
     // Settings modal
     elements.settingsBtn.addEventListener('click', () => elements.settingsModal.classList.remove('hidden'));
@@ -48,6 +50,13 @@ function init() {
     });
 
     if (openRouterKey) elements.apiKeyInput.value = openRouterKey;
+}
+
+function stopGeneration() {
+    shouldStop = true;
+    elements.stopBtn.style.display = 'none';
+    elements.randomTopicBtn.style.display = 'flex';
+    appendToTranscript('system', '<em>Discussion stopped by user.</em>');
 }
 
 // UI Helpers
@@ -96,7 +105,9 @@ function appendToTranscript(role, text, modelKey = null) {
     let html = '';
     const parsedText = marked.parseInline(text.substring(0, 100)) + (text.length > 100 ? '...' : '');
 
-    if (role === 'user') {
+    if (role === 'system') {
+        html = `<div class="transcript-msg system">${text}</div>`;
+    } else if (role === 'user') {
         html = `<div class="transcript-msg user"><strong>You</strong> ${text}</div>`;
     } else {
         const aiName = AI_MODELS[modelKey].name;
@@ -149,6 +160,9 @@ async function sendMessage() {
     const content = elements.messageInput.value.trim();
     if (!content || isGenerating) return;
 
+    // Reset Stop Flag
+    shouldStop = false;
+
     // Hide any existing bubbles
     hideAllBubbles();
 
@@ -156,7 +170,8 @@ async function sendMessage() {
     elements.messageInput.value = '';
     elements.messageInput.style.height = 'auto';
     elements.sendBtn.disabled = true;
-    elements.randomTopicBtn.disabled = true;
+    elements.randomTopicBtn.style.display = 'none';
+    elements.stopBtn.style.display = 'flex';
     isGenerating = true;
 
     // Add user message to history & transcript
@@ -181,6 +196,8 @@ async function runRoundtableCycle() {
         let currentHistory = [...apiHistory];
 
         for (const modelKey of models) {
+            if (shouldStop) break; // Break out immediately if Stop was clicked
+
             // Check if Auto-Pilot was turned off mid-cycle or if we should stop
             // But we always finish at least the first round.
 
@@ -215,7 +232,7 @@ async function runRoundtableCycle() {
         }
 
         // Loop is finished. Should we go again?
-        if (elements.autopilotToggle && elements.autopilotToggle.checked) {
+        if (!shouldStop && elements.autopilotToggle && elements.autopilotToggle.checked) {
             // Let the last bubble linger just a moment before restarting
             await new Promise(resolve => setTimeout(resolve, 2000));
 
@@ -231,7 +248,8 @@ async function runRoundtableCycle() {
     } finally {
         isGenerating = false;
         elements.sendBtn.disabled = false;
-        if (elements.randomTopicBtn) elements.randomTopicBtn.disabled = false;
+        if (elements.randomTopicBtn) elements.randomTopicBtn.style.display = 'flex';
+        if (elements.stopBtn) elements.stopBtn.style.display = 'none';
         elements.messageInput.focus();
         // We leave the very last bubble visible until the user types again!
     }

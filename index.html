@@ -89,9 +89,15 @@
             <!-- Input Area -->
             <div class="input-area glass-panel">
                 <div class="input-controls-top">
-                    <button id="random-topic-btn" class="secondary-btn">
-                        <i class="fa-solid fa-dice"></i> Random Topic
-                    </button>
+                    <div class="control-group">
+                        <button id="random-topic-btn" class="secondary-btn">
+                            <i class="fa-solid fa-dice"></i> Random Topic
+                        </button>
+                        <button id="stop-btn" class="secondary-btn"
+                            style="color: #ef4444; border-color: rgba(239, 68, 68, 0.3); display: none;">
+                            <i class="fa-solid fa-stop"></i> Stop
+                        </button>
+                    </div>
                     <label class="toggle-switch" title="AIs will continue talking automatically">
                         <input type="checkbox" id="autopilot-toggle">
                         <span class="slider round"></span>
