@@ -33,6 +33,12 @@ function init() {
     elements.sendBtn.addEventListener('click', sendMessage);
     elements.clearChatBtn.addEventListener('click', clearChat);
 
+    // New Features
+    elements.randomTopicBtn = document.getElementById('random-topic-btn');
+    elements.autopilotToggle = document.getElementById('autopilot-toggle');
+
+    elements.randomTopicBtn.addEventListener('click', startRandomTopic);
+
     // Settings modal
     elements.settingsBtn.addEventListener('click', () => elements.settingsModal.classList.remove('hidden'));
     elements.closeModalBtn.addEventListener('click', () => elements.settingsModal.classList.add('hidden'));
@@ -64,6 +70,25 @@ function saveSettings() {
     if (openRouterKey) localStorage.setItem(STORAGE_KEY, openRouterKey);
     else localStorage.removeItem(STORAGE_KEY);
     elements.settingsModal.classList.add('hidden');
+}
+
+// Pre-defined random topics to spark debate
+const randomTopics = [
+    "Is a hotdog a sandwich? Defend your answer.",
+    "If AI becomes truly sentient, should it have the right to vote?",
+    "Is time travel actually possible, or just a fun sci-fi concept?",
+    "What is the most underrated invention in human history?",
+    "If you had to live in a virtual reality simulation forever, what would it look like?",
+    "Are humans fundamentally good or evil?",
+    "What's the best way to survive a zombie apocalypse?",
+    "Is water actually wet?"
+];
+
+function startRandomTopic() {
+    if (isGenerating) return;
+    const topic = randomTopics[Math.floor(Math.random() * randomTopics.length)];
+    elements.messageInput.value = topic;
+    sendMessage();
 }
 
 // Transcript Logic
@@ -131,12 +156,19 @@ async function sendMessage() {
     elements.messageInput.value = '';
     elements.messageInput.style.height = 'auto';
     elements.sendBtn.disabled = true;
+    elements.randomTopicBtn.disabled = true;
     isGenerating = true;
 
     // Add user message to history & transcript
     chatHistory.push({ role: 'user', content });
     appendToTranscript('user', content);
 
+    // Start the roundtable loop
+    await runRoundtableCycle();
+}
+
+// Separate the discussion cycle so it can loop
+async function runRoundtableCycle() {
     // Prepare API history
     const apiHistory = chatHistory.map(msg => ({
         role: msg.role === 'user' ? 'user' : 'assistant',
@@ -145,11 +177,13 @@ async function sendMessage() {
 
     const models = Object.keys(AI_MODELS);
 
-    // Run models sequentially for the roundtable effect
     try {
         let currentHistory = [...apiHistory];
 
         for (const modelKey of models) {
+            // Check if Auto-Pilot was turned off mid-cycle or if we should stop
+            // But we always finish at least the first round.
+
             setTypingStatus(modelKey, true);
 
             try {
@@ -179,9 +213,25 @@ async function sendMessage() {
                 await new Promise(resolve => setTimeout(resolve, 2000));
             }
         }
+
+        // Loop is finished. Should we go again?
+        if (elements.autopilotToggle && elements.autopilotToggle.checked) {
+            // Let the last bubble linger just a moment before restarting
+            await new Promise(resolve => setTimeout(resolve, 2000));
+
+            // Re-run the cycle to keep the debate going
+            // We'll push a synthetic user prompt to prompt the next round if history gets long,
+            // or we just let them continue off each previous response.
+            // A simple "Continue the discussion..." works as a bridge.
+            chatHistory.push({ role: 'user', content: "Continue the discussion and debate each other's points." });
+            window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+            await runRoundtableCycle();
+        }
+
     } finally {
         isGenerating = false;
         elements.sendBtn.disabled = false;
+        if (elements.randomTopicBtn) elements.randomTopicBtn.disabled = false;
         elements.messageInput.focus();
         // We leave the very last bubble visible until the user types again!
     }

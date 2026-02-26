@@ -88,10 +88,22 @@
 
             <!-- Input Area -->
             <div class="input-area glass-panel">
-                <textarea id="message-input" placeholder="Address the roundtable..." rows="1"></textarea>
-                <button id="send-btn" class="send-btn" disabled>
-                    <i class="fa-solid fa-paper-plane"></i>
-                </button>
+                <div class="input-controls-top">
+                    <button id="random-topic-btn" class="secondary-btn">
+                        <i class="fa-solid fa-dice"></i> Random Topic
+                    </button>
+                    <label class="toggle-switch" title="AIs will continue talking automatically">
+                        <input type="checkbox" id="autopilot-toggle">
+                        <span class="slider round"></span>
+                        <span class="toggle-label">Auto-Pilot</span>
+                    </label>
+                </div>
+                <div class="input-wrapper">
+                    <textarea id="message-input" placeholder="Address the roundtable..." rows="1"></textarea>
+                    <button id="send-btn" class="send-btn" disabled>
+                        <i class="fa-solid fa-paper-plane"></i>
+                    </button>
+                </div>
             </div>
         </main>
     </div>
