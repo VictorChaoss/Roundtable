@@ -27,8 +27,12 @@ const elements = {
     apiKeyInput: document.getElementById('api-key-input'),
     randomTopicBtn: document.getElementById('random-topic-btn'),
     autopilotToggle: document.getElementById('autopilot-toggle'),
-    stopBtn: document.getElementById('stop-btn')
+    stopBtn: document.getElementById('stop-btn'),
+    caContainer: document.getElementById('ca-container'),
+    caText: document.getElementById('ca-text')
 };
+
+let placeholderInterval;
 
 // Initialize
 function init() {
@@ -40,6 +44,10 @@ function init() {
     // New Features
     elements.randomTopicBtn.addEventListener('click', startRandomTopic);
     elements.stopBtn.addEventListener('click', stopGeneration);
+
+    if (elements.caContainer) {
+        elements.caContainer.addEventListener('click', copyCA);
+    }
 
     elements.autopilotToggle.addEventListener('change', (e) => {
         if (isGenerating) {
@@ -63,6 +71,23 @@ function stopGeneration() {
     elements.stopBtn.style.display = 'none';
     elements.autopilotToggle.checked = false; // Turn off toggle
     appendToTranscript('system', '<em>Auto-Pilot stopped by user.</em>');
+}
+
+function copyCA() {
+    if (!elements.caText) return;
+    const ca = elements.caText.innerText;
+    navigator.clipboard.writeText(ca).then(() => {
+        const originalText = elements.caText.innerText;
+        elements.caText.innerText = 'Copied!';
+        elements.caContainer.style.borderColor = '#10a37f';
+        elements.caContainer.style.background = 'rgba(16, 163, 127, 0.1)';
+
+        setTimeout(() => {
+            elements.caText.innerText = originalText;
+            elements.caContainer.style.borderColor = '';
+            elements.caContainer.style.background = '';
+        }, 2000);
+    });
 }
 
 // ... UI Helpers ... 
@@ -177,7 +202,17 @@ async function sendMessage() {
     // Reset input
     elements.messageInput.value = '';
     elements.messageInput.style.height = 'auto';
+    elements.messageInput.disabled = true; // Disable input while talking
     elements.sendBtn.disabled = true;
+
+    // Animate Placeholder
+    let dots = 0;
+    elements.messageInput.placeholder = "Roundtable debating";
+    if (placeholderInterval) clearInterval(placeholderInterval);
+    placeholderInterval = setInterval(() => {
+        dots = (dots + 1) % 4;
+        elements.messageInput.placeholder = "Roundtable debating" + ".".repeat(dots);
+    }, 500);
 
     // Disable random topic deeply
     elements.randomTopicBtn.disabled = true;
@@ -272,9 +307,25 @@ async function runRoundtableCycle() {
     } finally {
         isGenerating = false;
         elements.sendBtn.disabled = false;
-        if (elements.randomTopicBtn) elements.randomTopicBtn.style.display = 'flex';
+
+        // Restore input
+        if (placeholderInterval) clearInterval(placeholderInterval);
+        elements.messageInput.disabled = false;
+        elements.messageInput.placeholder = "Address the roundtable...";
+
+        // Restore random topic button
+        if (elements.randomTopicBtn) {
+            elements.randomTopicBtn.style.display = 'flex';
+            elements.randomTopicBtn.disabled = false;
+            elements.randomTopicBtn.style.pointerEvents = 'auto';
+            elements.randomTopicBtn.style.opacity = '1';
+        }
+
         if (elements.stopBtn) elements.stopBtn.style.display = 'none';
-        elements.messageInput.focus();
+
+        // Focus back if they aren't on mobile to make desktop typing seamless
+        if (window.innerWidth > 768) elements.messageInput.focus();
+
         // We leave the very last bubble visible until the user types again!
     }
 }

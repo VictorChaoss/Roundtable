@@ -178,6 +178,17 @@ body {
     border-radius: 8px;
     background: rgba(255, 255, 255, 0.03);
     border-left: 3px solid transparent;
+    max-height: 250px;
+    overflow-y: auto;
+}
+
+.transcript-msg::-webkit-scrollbar {
+    width: 4px;
+}
+
+.transcript-msg::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
 }
 
 .transcript-msg strong {
@@ -195,6 +206,8 @@ body {
     font-size: 0.8rem;
     border: none;
     background: transparent;
+    max-height: none;
+    overflow-y: visible;
 }
 
 .transcript-msg.user {
@@ -660,6 +673,12 @@ body {
     justify-content: space-between;
     align-items: center;
     width: 100%;
+}
+
+.control-group {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
 }
 
 .secondary-btn {
