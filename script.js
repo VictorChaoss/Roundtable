@@ -4,8 +4,8 @@ const STORAGE_KEY = 'ai_group_chat_api_key';
 const AI_MODELS = {
     chatgpt: { id: 'chatgpt', name: 'ChatGPT', model_id: 'openai/gpt-4o-mini' },
     claude: { id: 'claude', name: 'Claude', model_id: 'anthropic/claude-3-haiku' },
-    gemini: { id: 'gemini', name: 'Gemini', model_id: 'google/gemini-flash-1.5' },
-    grok: { id: 'grok', name: 'Grok', model_id: 'x-ai/grok-beta' }
+    gemini: { id: 'gemini', name: 'Gemini', model_id: 'google/gemini-2.5-flash' },
+    grok: { id: 'grok', name: 'Grok', model_id: 'nvidia/nemotron-3-nano-30b-a3b:free' }
 };
 
 // State
@@ -213,7 +213,7 @@ async function fetchAIResponse(modelKey, history) {
         });
     }
 
-    const systemPrompt = `You are ${ai.name}, an AI assistant. You are participating in a group chat with a User and other AIs. Keep your responses relatively concise, conversational, and stay in character. Speak naturally as your specific AI persona.`;
+    const systemPrompt = `You are ${ai.name}, an AI assistant. You are participating in a group chat with a User and other AIs. Keep your responses relatively concise, conversational, and stay in character. Speak naturally as your specific AI persona. Do not write responses or dialogues on behalf of other AIs.`;
 
     const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
         method: "POST",
