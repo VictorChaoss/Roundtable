@@ -305,6 +305,17 @@ body {
     z-index: 1;
 }
 
+.table-logo {
+    position: absolute;
+    width: 65%;
+    height: 65%;
+    object-fit: contain;
+    opacity: 0.25;
+    z-index: 0;
+    pointer-events: none;
+    filter: grayscale(100%) brightness(1.5);
+}
+
 .core-glow {
     width: 150px;
     height: 150px;

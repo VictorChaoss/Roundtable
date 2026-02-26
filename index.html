@@ -57,6 +57,7 @@
             <div class="roundtable-wrapper">
                 <!-- The actual "Table" graphic -->
                 <div class="table-center">
+                    <img src="logo.png" class="table-logo" alt="Logo Watermark" onerror="this.style.display='none'">
                     <div class="core-glow"></div>
                 </div>
 
@@ -83,7 +84,12 @@
 
                 <!-- Bottom: Gemini -->
                 <div class="ai-seat pos-bottom" id="seat-gemini">
-                    <div class="avatar gemini"><i class="fa-solid fa-sparkles"></i></div>
+                    <div class="avatar gemini">
+                        <svg viewBox="0 0 24 24" width="24" height="24">
+                            <path fill="currentColor"
+                                d="M11.967 3.061c.14-.389.684-.389.824 0 1.085 3.012 3.42 5.347 6.432 6.432.389.14.389.684 0 .824-3.012 1.085-5.347 3.42-6.432 6.432-.14.389-.684.389-.824 0-1.085-3.012-3.42-5.347-6.432-6.432-.389-.14-.389-.684 0-.824 3.012-1.085 5.347-3.42 6.432-6.432z" />
+                        </svg>
+                    </div>
                     <div class="ai-badge">Gemini <small>1.5 Pro</small></div>
                     <div class="status-indicator"></div>
                     <div class="speech-bubble bubble-bottom" id="bubble-gemini">
@@ -93,7 +99,7 @@
 
                 <!-- Left: Grok -->
                 <div class="ai-seat pos-left" id="seat-grok">
-                    <div class="avatar grok"><i class="fa-solid fa-x"></i></div>
+                    <div class="avatar grok"><i class="fa-brands fa-x-twitter"></i></div>
                     <div class="ai-badge">Grok <small>Beta</small></div>
                     <div class="status-indicator"></div>
                     <div class="speech-bubble bubble-left" id="bubble-grok">
