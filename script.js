@@ -279,21 +279,21 @@ async function runRoundtableCycle() {
 
                 // Keep the bubble visible for a couple of seconds before the next bot starts typing
                 // Gives the user time to read the roundtable discussion
-                const readingTime = Math.min(Math.max(responseText.length * 20, 2000), 5000);
+                const readingTime = Math.min(Math.max(responseText.length * 10, 1000), 3000);
                 await new Promise(resolve => setTimeout(resolve, readingTime));
 
             } catch (error) {
                 console.error(`Error from ${modelKey}:`, error);
                 setTypingStatus(modelKey, false);
                 showBubble(modelKey, "*System Error: Failed to connect.*");
-                await new Promise(resolve => setTimeout(resolve, 2000));
+                await new Promise(resolve => setTimeout(resolve, 1500));
             }
         }
 
         // Loop is finished. Should we go again?
         if (!shouldStop && elements.autopilotToggle && elements.autopilotToggle.checked) {
             // Let the last bubble linger just a moment before restarting
-            await new Promise(resolve => setTimeout(resolve, 2000));
+            await new Promise(resolve => setTimeout(resolve, 1000));
 
             // Re-run the cycle to keep the debate going
             // We'll push a synthetic user prompt to prompt the next round if history gets long,
