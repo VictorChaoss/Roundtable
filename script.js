@@ -41,6 +41,12 @@ function init() {
     elements.randomTopicBtn.addEventListener('click', startRandomTopic);
     elements.stopBtn.addEventListener('click', stopGeneration);
 
+    elements.autopilotToggle.addEventListener('change', (e) => {
+        if (isGenerating) {
+            elements.stopBtn.style.display = e.target.checked ? 'flex' : 'none';
+        }
+    });
+
     // Settings modal
     elements.settingsBtn.addEventListener('click', () => elements.settingsModal.classList.remove('hidden'));
     elements.closeModalBtn.addEventListener('click', () => elements.settingsModal.classList.add('hidden'));
@@ -55,11 +61,11 @@ function init() {
 function stopGeneration() {
     shouldStop = true;
     elements.stopBtn.style.display = 'none';
-    elements.randomTopicBtn.style.display = 'flex';
-    appendToTranscript('system', '<em>Discussion stopped by user.</em>');
+    elements.autopilotToggle.checked = false; // Turn off toggle
+    appendToTranscript('system', '<em>Auto-Pilot stopped by user.</em>');
 }
 
-// UI Helpers
+// ... UI Helpers ... 
 function handleTextareaResize() {
     const input = elements.messageInput;
     input.style.height = 'auto';
@@ -95,6 +101,7 @@ const randomTopics = [
 
 function startRandomTopic() {
     if (isGenerating) return;
+    elements.randomTopicBtn.disabled = true; // Disable immediately
     const topic = randomTopics[Math.floor(Math.random() * randomTopics.length)];
     elements.messageInput.value = topic;
     sendMessage();
@@ -103,7 +110,8 @@ function startRandomTopic() {
 // Transcript Logic
 function appendToTranscript(role, text, modelKey = null) {
     let html = '';
-    const parsedText = marked.parseInline(text.substring(0, 100)) + (text.length > 100 ? '...' : '');
+    // Show full text in transcript
+    const parsedText = marked.parseInline(text);
 
     if (role === 'system') {
         html = `<div class="transcript-msg system">${text}</div>`;
@@ -170,8 +178,18 @@ async function sendMessage() {
     elements.messageInput.value = '';
     elements.messageInput.style.height = 'auto';
     elements.sendBtn.disabled = true;
-    elements.randomTopicBtn.style.display = 'none';
-    elements.stopBtn.style.display = 'flex';
+
+    // Disable random topic deeply
+    elements.randomTopicBtn.disabled = true;
+    elements.randomTopicBtn.style.pointerEvents = 'none';
+    elements.randomTopicBtn.style.opacity = '0.5';
+
+    // Show stop button ONLY if auto-pilot is checked
+    if (elements.autopilotToggle.checked) {
+        elements.stopBtn.style.display = 'flex';
+    } else {
+        elements.stopBtn.style.display = 'none';
+    }
     isGenerating = true;
 
     // Add user message to history & transcript
@@ -205,7 +223,13 @@ async function runRoundtableCycle() {
 
             try {
                 // Fetch response using expanding history
-                const responseText = await fetchAIResponse(modelKey, currentHistory);
+                let responseText = await fetchAIResponse(modelKey, currentHistory);
+
+                // Fallback for skipped/empty responses
+                if (!responseText || responseText.trim() === '') {
+                    console.warn(`Empty response from ${modelKey}, using fallback.`);
+                    responseText = "I'm still processing that. I agree with the points made.";
+                }
 
                 setTypingStatus(modelKey, false);
 
