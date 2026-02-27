@@ -973,69 +973,111 @@ textarea::placeholder {
         max-height: 250px;
     }
 
+    /* Shrink the entire roundtable area aggressively for mobile */
     .roundtable-area {
-        height: 600px;
-        min-height: 600px;
+        height: 550px;
+        min-height: 550px;
         overflow: visible;
         margin-bottom: 2rem;
     }
 
+    .roundtable-wrapper {
+        transform: scale(0.85);
+        /* Scale down the entire table setup */
+        margin-top: -20px;
+    }
+
     .table-center {
-        width: 240px;
-        height: 240px;
+        width: 180px;
+        height: 180px;
     }
 
     .core-glow {
-        width: 100px;
-        height: 100px;
-    }
-
-    .ai-seat {
         width: 80px;
         height: 80px;
     }
 
+    .table-logo {
+        width: 160px;
+    }
+
+    .ai-seat {
+        width: 70px;
+        height: 70px;
+    }
+
     .avatar {
-        width: 48px;
-        height: 48px;
-        font-size: 1.2rem;
+        width: 44px;
+        height: 44px;
+        font-size: 1.1rem;
     }
 
     .ai-badge {
-        font-size: 0.75rem;
-        margin-top: 4px;
+        font-size: 0.7rem;
+        margin-top: 2px;
     }
 
     .speech-bubble {
-        width: 280px;
-        padding: 1rem;
+        width: 250px;
+        /* Narrower bubbles */
+        padding: 0.8rem;
     }
 
     .bubble-content {
-        font-size: 0.85rem;
+        font-size: 0.8rem;
     }
 
-    .bubble-top {
-        top: 70px;
+    /* Pull avatars tighter toward the center */
+    .pos-top {
+        top: -15%;
     }
 
-    .bubble-bottom {
-        bottom: 70px;
-    }
-
-    .bubble-left {
-        left: 60px;
-    }
-
-    .bubble-right {
-        right: 60px;
+    .pos-bottom {
+        bottom: -15%;
     }
 
     .pos-left {
-        left: 0%;
+        left: -15%;
+        /* Allow slight negative so they fit */
     }
 
     .pos-right {
-        right: 0%;
+        right: -15%;
+    }
+
+    /* Adjust bubble spawn points so they don't break off-screen */
+    .bubble-top {
+        top: 60px;
+        left: 50%;
+        transform: translateX(-50%) scale(0.9);
+    }
+
+    .bubble-bottom {
+        bottom: 60px;
+        left: 50%;
+        transform: translateX(-50%) scale(0.9);
+    }
+
+    .bubble-left {
+        left: 40px;
+        top: -50px;
+        transform: scale(0.9);
+    }
+
+    .bubble-right {
+        right: 40px;
+        top: -50px;
+        transform: scale(0.9);
+    }
+
+    /* Override the visible transform to include the X-translations for top/bottom */
+    .pos-top .speech-bubble.visible,
+    .pos-bottom .speech-bubble.visible {
+        transform: translateX(-50%) scale(1);
+    }
+
+    .pos-left .speech-bubble.visible,
+    .pos-right .speech-bubble.visible {
+        transform: scale(1);
     }
 }
