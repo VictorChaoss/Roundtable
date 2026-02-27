@@ -177,6 +177,20 @@ function showBubble(modelKey, content) {
 
     // Auto-scroll bubble content to top just in case
     bubbleContent.scrollTop = 0;
+
+    // Mobile Auto-scroll: Ensure the roundtable area scrolls down to the active speaker
+    if (window.innerWidth <= 768) {
+        const roundtableArea = document.querySelector('.roundtable-area');
+        if (roundtableArea) {
+            // Scroll so the active bubble is pushed into view
+            setTimeout(() => {
+                roundtableArea.scrollTo({
+                    top: roundtableArea.scrollHeight,
+                    behavior: 'smooth'
+                });
+            }, 100);
+        }
+    }
 }
 
 function setTypingStatus(modelKey, isTyping) {
