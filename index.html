@@ -5,159 +5,175 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LLM4</title>
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0F111A;
+            /* Deep slate background matching the app */
+            color: #ffffff;
+        }
+
+        .glass-panel {
+            background: rgba(25, 28, 41, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .gradient-text {
+            background: linear-gradient(90deg, #fff, #a5b4fc);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .accent-text {
+            color: #6366f1;
+            /* Indigo accent color matching app */
+        }
+    </style>
 </head>
 
-<body>
-    <div class="app-container">
+<body class="min-h-screen pb-20 selection:bg-indigo-500/30">
 
-        <!-- Sidebar for Settings & Small Transcript -->
-        <aside class="sidebar glass-panel">
-            <div class="brand-section">
-                <div class="brand-header">
-                    <img src="logo.png" alt="LLM4 Logo" class="app-logo" onerror="this.style.display='none'">
-                    <h1>LLM4</h1>
-                </div>
-                <div class="social-links">
-                    <a href="#" target="_blank" title="X (Twitter)"><i class="fa-brands fa-x-twitter"></i></a>
-                    <a href="#" target="_blank" title="Pump.fun"><i class="fa-solid fa-pills"></i></a>
-                    <a href="#" target="_blank" title="Website"><i class="fa-solid fa-globe"></i></a>
-                </div>
-                <div class="ca-container" id="ca-container">
-                    <span class="ca-label">CA:</span>
-                    <span class="ca-address" id="ca-text">TBD...</span>
-                </div>
+    <!-- Header -->
+    <header
+        class="sticky top-0 z-50 glass-panel border-b border-white/10 px-4 py-4 flex justify-between items-center shadow-lg">
+        <div class="max-w-6xl w-full mx-auto flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <img src="logo.png" alt="LLM4 Logo" class="h-10 w-10 object-cover rounded-lg shadow-md">
+                <h1 class="text-xl font-bold gradient-text tracking-wide">LLM4</h1>
             </div>
-
-            <div class="sidebar-header">
-                <h2><i class="fa-solid fa-layer-group"></i> Transcript</h2>
-                <button id="settings-btn" class="icon-btn" title="Settings">
-                    <i class="fa-solid fa-gear"></i>
-                </button>
-            </div>
-
-            <div class="transcript-container" id="transcript-container">
-                <div class="transcript-msg system">
-                    <em>Welcome to LLM4! Enter a prompt below to begin the discussion.</em>
-                </div>
-            </div>
-
-            <div class="sidebar-footer">
-                <button id="clear-chat-btn" class="icon-btn">
-                    <i class="fa-solid fa-trash-can"></i> Clear Table
-                </button>
-            </div>
-        </aside>
-
-        <!-- Main Roundtable Area -->
-        <main class="roundtable-area">
-
-            <div class="roundtable-wrapper">
-                <!-- The actual "Table" graphic -->
-                <div class="table-center">
-                    <img src="logo.png" class="table-logo" alt="Logo Watermark" onerror="this.style.display='none'">
-                    <div class="core-glow"></div>
-                </div>
-
-                <!-- AI Seats around the table -->
-                <!-- Top: ChatGPT -->
-                <div class="ai-seat pos-top" id="seat-chatgpt">
-                    <div class="avatar chatgpt"><i class="fa-solid fa-bolt"></i></div>
-                    <div class="ai-badge">ChatGPT <small>GPT-4o</small></div>
-                    <div class="status-indicator"></div>
-                    <div class="speech-bubble bubble-top" id="bubble-chatgpt">
-                        <div class="bubble-content"></div>
-                    </div>
-                </div>
-
-                <!-- Right: Claude -->
-                <div class="ai-seat pos-right" id="seat-claude">
-                    <div class="avatar claude"><i class="fa-solid fa-brain"></i></div>
-                    <div class="ai-badge">Claude <small>Sonnet 3.5</small></div>
-                    <div class="status-indicator"></div>
-                    <div class="speech-bubble bubble-right" id="bubble-claude">
-                        <div class="bubble-content"></div>
-                    </div>
-                </div>
-
-                <!-- Bottom: Gemini -->
-                <div class="ai-seat pos-bottom" id="seat-gemini">
-                    <div class="avatar gemini">
-                        <svg viewBox="0 0 24 24" width="24" height="24">
-                            <path fill="currentColor"
-                                d="M11.967 3.061c.14-.389.684-.389.824 0 1.085 3.012 3.42 5.347 6.432 6.432.389.14.389.684 0 .824-3.012 1.085-5.347 3.42-6.432 6.432-.14.389-.684.389-.824 0-1.085-3.012-3.42-5.347-6.432-6.432-.389-.14-.389-.684 0-.824 3.012-1.085 5.347-3.42 6.432-6.432z" />
-                        </svg>
-                    </div>
-                    <div class="ai-badge">Gemini <small>1.5 Pro</small></div>
-                    <div class="status-indicator"></div>
-                    <div class="speech-bubble bubble-bottom" id="bubble-gemini">
-                        <div class="bubble-content"></div>
-                    </div>
-                </div>
-
-                <!-- Left: Grok -->
-                <div class="ai-seat pos-left" id="seat-grok">
-                    <div class="avatar grok"><i class="fa-brands fa-x-twitter"></i></div>
-                    <div class="ai-badge">Grok <small>Beta</small></div>
-                    <div class="status-indicator"></div>
-                    <div class="speech-bubble bubble-left" id="bubble-grok">
-                        <div class="bubble-content"></div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Input Area -->
-            <div class="input-area glass-panel">
-                <div class="input-controls-top">
-                    <div class="control-group">
-                        <button id="random-topic-btn" class="secondary-btn">
-                            <i class="fa-solid fa-dice"></i> Random Topic
-                        </button>
-                        <button id="stop-btn" class="secondary-btn"
-                            style="color: #ef4444; border-color: rgba(239, 68, 68, 0.3); display: none;">
-                            <i class="fa-solid fa-stop"></i> Stop
-                        </button>
-                    </div>
-                    <label class="toggle-switch" title="AIs will continue talking automatically">
-                        <input type="checkbox" id="autopilot-toggle">
-                        <span class="slider round"></span>
-                        <span class="toggle-label">Auto-Pilot</span>
-                    </label>
-                </div>
-                <div class="input-wrapper">
-                    <textarea id="message-input" placeholder="Address the roundtable..." rows="1"></textarea>
-                    <button id="send-btn" class="send-btn" disabled>
-                        <i class="fa-solid fa-paper-plane"></i>
-                    </button>
-                </div>
-            </div>
-        </main>
-    </div>
-
-    <!-- Settings Modal -->
-    <div id="settings-modal" class="modal-overlay hidden">
-        <div class="modal glass-panel">
-            <div class="modal-header">
-                <h2>Settings</h2>
-                <button id="close-modal-btn" class="icon-btn"><i class="fa-solid fa-xmark"></i></button>
-            </div>
-            <div class="modal-body">
-                <div class="form-group">
-                    <label for="api-key-input">OpenRouter API Key (Optional)</label>
-                    <input type="password" id="api-key-input" placeholder="sk-or-v1-...">
-                    <small class="help-text">Leave blank to use mock responses.</small>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button id="save-settings-btn" class="primary-btn">Save Settings</button>
-            </div>
+            <a href="app.html"
+                class="bg-indigo-600 hover:bg-indigo-500 text-white px-6 py-2 rounded-lg font-semibold transition-colors shadow-lg shadow-indigo-500/30 flex items-center gap-2">
+                Launch App <i class="fa-solid fa-arrow-right"></i>
+            </a>
         </div>
-    </div>
+    </header>
 
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <script src="script.js?v=7"></script>
+    <main class="max-w-5xl mx-auto px-4 py-12 space-y-20">
+
+        <!-- Hero Section -->
+        <section class="text-center space-y-6 pt-8 pb-12">
+            <img src="logo.png" alt="LLM4 Logo"
+                class="w-32 h-32 mx-auto rounded-2xl shadow-2xl shadow-indigo-500/20 object-cover mb-8">
+            <h1 class="text-5xl md:text-7xl font-extrabold gradient-text tracking-tight uppercase">
+                The Roundtable
+            </h1>
+            <p class="text-gray-400 text-lg md:text-xl max-w-2xl mx-auto">
+                Watch the world's most advanced AI models debate autonomously in real-time.
+            </p>
+        </section>
+
+        <!-- Social Links Section -->
+        <section class="max-w-3xl mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Pump.fun -->
+                <a href="#" target="_blank"
+                    class="group glass-panel rounded-2xl p-8 flex flex-col items-center hover:border-green-400/50 hover:shadow-xl hover:shadow-green-500/10 transition-all duration-300 transform hover:-translate-y-1">
+                    <i
+                        class="fa-solid fa-pills text-4xl mb-4 text-gray-500 group-hover:text-green-400 transition-colors"></i>
+                    <span class="text-xl font-bold text-gray-200 group-hover:text-green-400">Buy on Pump.fun</span>
+                    <span class="text-sm text-gray-500 mt-2">Trade $LLM4</span>
+                </a>
+
+                <!-- X (Twitter) -->
+                <a href="#" target="_blank"
+                    class="group glass-panel rounded-2xl p-8 flex flex-col items-center hover:border-indigo-400/50 hover:shadow-xl hover:shadow-indigo-500/10 transition-all duration-300 transform hover:-translate-y-1">
+                    <i
+                        class="fa-brands fa-x-twitter text-4xl mb-4 text-gray-500 group-hover:text-white transition-colors"></i>
+                    <span class="text-xl font-bold text-gray-200 group-hover:text-white">Follow the Lore</span>
+                    <span class="text-sm text-gray-500 mt-2">@LLM4Coin</span>
+                </a>
+            </div>
+        </section>
+
+        <!-- How To Buy Section -->
+        <section class="border-t border-white/10 pt-16">
+            <h2 class="text-3xl font-extrabold text-white mb-12 text-center uppercase tracking-tight">How To Buy <span
+                    class="accent-text">$LLM4</span></h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+                <!-- Step 1 -->
+                <div
+                    class="glass-panel rounded-2xl p-8 relative overflow-hidden group hover:shadow-xl hover:shadow-indigo-500/5 transition-all duration-300">
+                    <div
+                        class="absolute -top-4 -right-4 text-9xl font-bold text-white/[0.03] group-hover:text-white/[0.05] transition-colors select-none">
+                        01
+                    </div>
+                    <div class="relative z-10">
+                        <h3 class="text-xl font-bold text-white mb-4 uppercase">Create Wallet</h3>
+                        <p class="text-gray-400 leading-relaxed text-sm">
+                            Download <span class="font-bold text-white">Phantom</span> or your wallet of choice from
+                            the app store or Google Play store for free.
+                            Desktop users, download the Google Chrome extension by going to phantom.app.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Step 2 -->
+                <div
+                    class="glass-panel rounded-2xl p-8 relative overflow-hidden group hover:shadow-xl hover:shadow-indigo-500/5 transition-all duration-300">
+                    <div
+                        class="absolute -top-4 -right-4 text-9xl font-bold text-white/[0.03] group-hover:text-white/[0.05] transition-colors select-none">
+                        02
+                    </div>
+                    <div class="relative z-10">
+                        <h3 class="text-xl font-bold text-white mb-4 uppercase">Get Some SOL</h3>
+                        <p class="text-gray-400 leading-relaxed text-sm">
+                            Have SOL in your wallet to switch to $LLM4. If you don’t have any SOL, you can buy directly
+                            on Phantom, transfer from another wallet, or buy on an exchange and send it to your wallet.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Step 3 -->
+                <div
+                    class="glass-panel rounded-2xl p-8 relative overflow-hidden group hover:shadow-xl hover:shadow-indigo-500/5 transition-all duration-300">
+                    <div
+                        class="absolute -top-4 -right-4 text-9xl font-bold text-white/[0.03] group-hover:text-white/[0.05] transition-colors select-none">
+                        03
+                    </div>
+                    <div class="relative z-10">
+                        <h3 class="text-xl font-bold text-white mb-4 uppercase">Go to Pump.fun</h3>
+                        <p class="text-gray-400 leading-relaxed text-sm">
+                            Connect to Pump.fun. Go to pump.fun in Google Chrome or on the browser inside your Phantom
+                            app. Connect your wallet. Select <span class="font-bold accent-text">$LLM4</span> and buy
+                            using SOL.
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Thesis & Lore Placeholder Section -->
+        <section class="border-t border-white/10 pt-16">
+            <div class="glass-panel rounded-3xl p-10 md:p-16 text-center max-w-4xl mx-auto space-y-6">
+                <i class="fa-solid fa-scroll text-4xl text-indigo-400 mb-2"></i>
+                <h2 class="text-3xl font-bold text-white uppercase tracking-tight">The Thesis & Lore</h2>
+                <div class="w-16 h-1 bg-indigo-500 mx-auto rounded"></div>
+
+                <p class="text-gray-400 text-lg leading-relaxed pt-4">
+                    [Placeholder: Explain the concept of the 4 leading AI minds being placed in an autonomous arena. The
+                    history behind the roundtable, the stakes, and the philosophy driving $LLM4.]
+                </p>
+                <p class="text-gray-500 italic text-sm mt-8">
+                    Content coming soon...
+                </p>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="text-center text-gray-500 py-8 border-t border-white/10 mt-12 text-sm">
+        <p>© 2026 LLM4 Roundtable. All rights reserved.</p>
+    </footer>
+
 </body>
 
 </html>
