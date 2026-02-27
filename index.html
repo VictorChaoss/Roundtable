@@ -34,6 +34,31 @@
             color: #6366f1;
             /* Indigo accent color matching app */
         }
+
+        /* CA Copy Animation */
+        @keyframes pulse-success {
+            0% {
+                border-color: rgba(99, 102, 241, 0.2);
+                box-shadow: 0 0 5px rgba(99, 102, 241, 0.05);
+            }
+
+            50% {
+                border-color: rgba(16, 163, 127, 0.8);
+                box-shadow: 0 0 20px rgba(16, 163, 127, 0.4);
+                background: rgba(16, 163, 127, 0.1);
+            }
+
+            100% {
+                border-color: rgba(99, 102, 241, 0.2);
+                box-shadow: 0 0 5px rgba(99, 102, 241, 0.05);
+                background: rgba(25, 28, 41, 0.7);
+            }
+        }
+
+        .ca-copied-anim {
+            animation: pulse-success 1.5s ease-out;
+            border-color: rgba(16, 163, 127, 0.5) !important;
+        }
     </style>
 </head>
 
@@ -417,6 +442,35 @@
                         }, 50);
                     }
                 }, 300); // match duration-300
+            });
+        }
+
+        function copyLandingCA() {
+            const caText = document.getElementById('landing-ca').innerText;
+            if (caText === 'TBD...' || !caText) return;
+
+            navigator.clipboard.writeText(caText).then(() => {
+                const btnText = document.getElementById('copy-landing-text');
+                const btnIcon = btnText.previousElementSibling;
+                const panel = btnText.closest('.glass-panel');
+
+                const originalText = btnText.innerText;
+                const originalIcon = btnIcon.className;
+
+                // Set Copied State
+                btnText.innerText = 'Copied!';
+                btnIcon.className = 'fa-solid fa-check';
+                panel.classList.add('ca-copied-anim');
+
+                // Revert after 1.5s (matching animation duration)
+                setTimeout(() => {
+                    btnText.innerText = originalText;
+                    btnIcon.className = originalIcon;
+                    panel.classList.remove('ca-copied-anim');
+                }, 1500);
+
+            }).catch(err => {
+                console.error('Failed to copy text: ', err);
             });
         }
     </script>
