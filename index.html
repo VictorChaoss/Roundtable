@@ -194,8 +194,8 @@
         /* ═══ HERO 3D LOGO ═══ */
         .hero-logo-stage {
             perspective: 800px;
-            width: 320px;
-            height: 320px;
+            width: clamp(220px, 80vw, 320px);
+            height: clamp(220px, 80vw, 320px);
             margin: 0 auto;
             position: relative;
         }
@@ -394,19 +394,20 @@
     <main class="max-w-5xl mx-auto px-4 py-12 space-y-20">
 
         <!-- Hero Section -->
-        <section class="text-center space-y-6 pt-8 pb-12 relative">
+        <section
+            class="text-center space-y-6 pt-16 md:pt-24 pb-12 relative min-h-[350px] flex flex-col items-center justify-center">
 
             <!-- 3D Animated Logo BEHIND text -->
             <div class="hero-logo-stage" id="heroLogoStage"
-                style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); z-index:0; width:340px; height:340px; opacity:0.35; pointer-events:none;">
+                style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); z-index:0; width:clamp(240px, 85vw, 340px); height:clamp(240px, 85vw, 340px); opacity:0.35; pointer-events:none;">
                 <div class="hero-logo-cube" id="heroLogoCube" style="animation: heroHover 6s ease-in-out infinite;">
                 </div>
             </div>
 
-            <h1 class="text-5xl md:text-7xl font-extrabold gradient-text tracking-tight uppercase relative z-10">
+            <h1 class="text-5xl md:text-7xl font-extrabold gradient-text tracking-tight uppercase relative z-10 px-4">
                 LLM4 Roundtable
             </h1>
-            <p class="text-gray-400 text-lg md:text-xl max-w-2xl mx-auto relative z-10">
+            <p class="text-gray-400 text-lg md:text-xl max-w-2xl mx-auto relative z-10 px-4">
                 Watch the world's most advanced AI models debate autonomously in real-time.
             </p>
         </section>
@@ -416,20 +417,22 @@
 
             <!-- CA Copy Box -->
             <div
-                class="glass-panel rounded-2xl p-6 flex flex-col md:flex-row items-center justify-between gap-4 border border-indigo-500/20 shadow-lg shadow-indigo-500/5 group hover:border-indigo-500/50 transition-colors">
-                <div class="flex items-center gap-3">
+                class="glass-panel rounded-2xl p-6 flex flex-col items-center justify-between gap-4 border border-indigo-500/20 shadow-lg shadow-indigo-500/5 group hover:border-indigo-500/50 transition-colors sm:flex-row">
+                <div class="flex items-center gap-3 w-full sm:w-auto">
                     <div
-                        class="w-10 h-10 rounded-full bg-indigo-500/10 flex items-center justify-center text-indigo-400">
+                        class="w-10 h-10 rounded-full bg-indigo-500/10 flex items-center justify-center text-indigo-400 shrink-0">
                         <i class="fa-solid fa-link"></i>
                     </div>
-                    <div>
-                        <span class="block text-xs text-gray-400 uppercase tracking-wider font-bold mb-1">Contract
+                    <div class="min-w-0">
+                        <span
+                            class="block text-xs text-center sm:text-left text-gray-400 uppercase tracking-wider font-bold mb-1">Contract
                             Address</span>
-                        <code id="landing-ca" class="text-white font-mono text-sm md:text-base select-all">TBD...</code>
+                        <code id="landing-ca"
+                            class="text-white font-mono text-xs sm:text-base select-all block break-all text-center sm:text-left">TBD...</code>
                     </div>
                 </div>
                 <button onclick="copyLandingCA()"
-                    class="bg-indigo-600 hover:bg-indigo-500 text-white px-5 py-2 rounded-lg font-semibold transition-colors flex items-center gap-2 group-hover:shadow-[0_0_15px_rgba(99,102,241,0.5)]">
+                    class="bg-indigo-600 hover:bg-indigo-500 text-white px-5 py-2 rounded-lg font-semibold transition-colors flex items-center gap-2 group-hover:shadow-[0_0_15px_rgba(99,102,241,0.5)] w-full sm:w-auto justify-center">
                     <i class="fa-regular fa-copy"></i>
                     <span id="copy-landing-text">Copy CA</span>
                 </button>
