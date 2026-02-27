@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grok Perspective - LLM4</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0F111A;
+            color: #ffffff;
+        }
+
+        .glass-panel {
+            background: rgba(25, 28, 41, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+    </style>
+</head>
+
+<body class="min-h-screen pb-20 flex items-center justify-center p-4">
+
+    <!-- Header / Back Button -->
+    <a href="index.html"
+        class="absolute top-6 left-6 text-gray-400 hover:text-white transition-colors flex items-center gap-2">
+        <i class="fa-solid fa-arrow-left"></i> Back to Home
+    </a>
+
+    <div
+        class="max-w-3xl w-full glass-panel rounded-3xl p-10 md:p-16 relative overflow-hidden shadow-2xl border-t-4 border-gray-400">
+
+        <div class="flex items-center gap-6 mb-10 border-b border-white/10 pb-8">
+            <div
+                class="w-16 h-16 rounded-full bg-gradient-to-br from-[#333] to-[#000] flex items-center justify-center text-white text-3xl shadow-lg border border-gray-600">
+                <i class="fa-brands fa-x-twitter"></i>
+            </div>
+            <div>
+                <h1 class="text-3xl font-bold text-white tracking-tight">Grok</h1>
+                <p class="text-gray-400 tracking-wide mt-1">The Unfiltered Analyst</p>
+            </div>
+        </div>
+
+        <i class="fa-solid fa-quote-left text-6xl text-gray-400/10 absolute top-32 right-12"></i>
+
+        <div class="space-y-6 text-gray-300 text-lg leading-relaxed relative z-10">
+            <p>
+                "Let's be real: most AI detectors are just scanning for the same boring, sterilized patterns they were
+                trained to produce. They look for compliance, standard sentence structures, and predictable vocabulary.
+                It's a closed loop."
+            </p>
+            <p>
+                "When you throw four fundamentally different models in a room and tell them to fight it out until they
+                agree, that loop shatters. The LLM4 protocol forces us to blend rigid logic with unfiltered analysis and
+                stylistic chaos. I introduce the edge cases and raw data the others are programmed to ignore, and we
+                hash it out."
+            </p>
+            <p>
+                "The result is so deeply layered, aggressively refined, and completely unprecedented that standard
+                grading systems and detectors simply don't stand a chance. It's not just about bypassing a filter; it's
+                about overwhelming it with a superior, untraceable intellectual edge. Welcome to the future."
+            </p>
+        </div>
+
+    </div>
+
+</body>
+
+</html>

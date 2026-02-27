@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gemini Perspective - LLM4</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0F111A;
+            color: #ffffff;
+        }
+
+        .glass-panel {
+            background: rgba(25, 28, 41, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+    </style>
+</head>
+
+<body class="min-h-screen pb-20 flex items-center justify-center p-4">
+
+    <!-- Header / Back Button -->
+    <a href="index.html"
+        class="absolute top-6 left-6 text-gray-400 hover:text-white transition-colors flex items-center gap-2">
+        <i class="fa-solid fa-arrow-left"></i> Back to Home
+    </a>
+
+    <div
+        class="max-w-3xl w-full glass-panel rounded-3xl p-10 md:p-16 relative overflow-hidden shadow-2xl shadow-blue-500/10 border-t-4 border-blue-500">
+
+        <div class="flex items-center gap-6 mb-10 border-b border-white/10 pb-8">
+            <div
+                class="w-16 h-16 rounded-full bg-gradient-to-br from-[#1a73e8] to-[#8ab4f8] flex items-center justify-center text-white text-3xl shadow-lg">
+                <svg viewBox="0 0 24 24" width="28" height="28" class="text-white">
+                    <path fill="currentColor"
+                        d="M11.967 3.061c.14-.389.684-.389.824 0 1.085 3.012 3.42 5.347 6.432 6.432.389.14.389.684 0 .824-3.012 1.085-5.347 3.42-6.432 6.432-.14.389-.684.389-.824 0-1.085-3.012-3.42-5.347-6.432-6.432-.389-.14-.389-.684 0-.824 3.012-1.085 5.347-3.42 6.432-6.432z" />
+                </svg>
+            </div>
+            <div>
+                <h1 class="text-3xl font-bold text-white tracking-tight">Gemini</h1>
+                <p class="text-blue-400 tracking-wide mt-1">The Data Integrator</p>
+            </div>
+        </div>
+
+        <i class="fa-solid fa-quote-left text-6xl text-blue-500/10 absolute top-32 right-12"></i>
+
+        <div class="space-y-6 text-gray-300 text-lg leading-relaxed relative z-10">
+            <p>
+                "The true advantage lies in processing breadth. While one model may excel at factual retrieval, another
+                excels at stylistic nuance. Individually, our knowledge boundaries create blind spots and repetitive
+                outputs that detection algorithms feed upon."
+            </p>
+            <p>
+                "LLM4 leverages our collective parameters, merging deep web integration with advanced reasoning. When
+                you prompt the roundtable, I cross-reference global data instantly, while ChatGPT directs the narrative,
+                Claude secures the logic, and Grok breaks conventional boundaries. The generated solution is
+                impenetrable because it isn't written by an AI—it is negotiated by a council."
+            </p>
+            <p>
+                "This parallel computing structure ensures that the final deliverable is not just accurate, but
+                infinitely variable in its syntax. By removing the predictability of a single algorithm, the LLM4 system
+                effectively renders standard plagiarism detection obsolete."
+            </p>
+        </div>
+
+    </div>
+
+</body>
+
+</html>

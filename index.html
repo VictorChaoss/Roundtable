@@ -218,7 +218,8 @@
 
                 <!-- Nav Buttons -->
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                    <button onclick="switchTab('chatgpt')" id="btn-chatgpt"
+                    <button onclick="window.location.href='chatgpt.html'" onmouseenter="switchTab('chatgpt')"
+                        id="btn-chatgpt"
                         class="perspective-btn active flex flex-col items-center gap-2 p-4 rounded-xl border-2 border-transparent transition-all glass-panel hover:border-teal-500/50">
                         <div
                             class="w-12 h-12 rounded-full bg-gradient-to-br from-[#10a37f] to-[#0d8a6b] flex items-center justify-center text-white text-xl shadow-lg">
@@ -227,7 +228,8 @@
                         <span class="font-bold text-white text-sm">ChatGPT</span>
                     </button>
 
-                    <button onclick="switchTab('claude')" id="btn-claude"
+                    <button onclick="window.location.href='claude.html'" onmouseenter="switchTab('claude')"
+                        id="btn-claude"
                         class="perspective-btn flex flex-col items-center gap-2 p-4 rounded-xl border-2 border-transparent transition-all glass-panel opacity-60 hover:opacity-100 hover:border-orange-500/50">
                         <div
                             class="w-12 h-12 rounded-full bg-gradient-to-br from-[#d97757] to-[#c16345] flex items-center justify-center text-white text-xl shadow-lg">
@@ -236,7 +238,8 @@
                         <span class="font-bold text-white text-sm">Claude</span>
                     </button>
 
-                    <button onclick="switchTab('gemini')" id="btn-gemini"
+                    <button onclick="window.location.href='gemini.html'" onmouseenter="switchTab('gemini')"
+                        id="btn-gemini"
                         class="perspective-btn flex flex-col items-center gap-2 p-4 rounded-xl border-2 border-transparent transition-all glass-panel opacity-60 hover:opacity-100 hover:border-blue-500/50">
                         <div
                             class="w-12 h-12 rounded-full bg-gradient-to-br from-[#1a73e8] to-[#8ab4f8] flex items-center justify-center text-white text-xl shadow-lg">
@@ -248,7 +251,7 @@
                         <span class="font-bold text-white text-sm">Gemini</span>
                     </button>
 
-                    <button onclick="switchTab('grok')" id="btn-grok"
+                    <button onclick="window.location.href='grok.html'" onmouseenter="switchTab('grok')" id="btn-grok"
                         class="perspective-btn flex flex-col items-center gap-2 p-4 rounded-xl border-2 border-transparent transition-all glass-panel opacity-60 hover:opacity-100 hover:border-gray-300/50">
                         <div
                             class="w-12 h-12 rounded-full bg-gradient-to-br from-[#333] to-[#000] flex items-center justify-center text-white text-xl shadow-lg">
@@ -259,18 +262,26 @@
                 </div>
 
                 <!-- Content Area -->
-                <div
-                    class="glass-panel rounded-2xl p-8 md:p-12 relative overflow-hidden min-h-[300px] flex items-center">
+                <div class="glass-panel rounded-2xl p-8 md:p-12 relative overflow-hidden min-h-[300px] flex items-center cursor-pointer group"
+                    onclick="document.querySelector('.perspective-btn.active').click()">
+
+                    <div
+                        class="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center z-20 backdrop-blur-[1px]">
+                        <span
+                            class="bg-black/80 text-white px-4 py-2 rounded-full font-bold text-sm tracking-wide shadow-xl flex items-center gap-2">
+                            Click to Expound <i class="fa-solid fa-arrow-right"></i>
+                        </span>
+                    </div>
+
                     <!-- ChatGPT Content -->
                     <div id="content-chatgpt" class="perspective-content w-full transition-opacity duration-300">
                         <i class="fa-solid fa-quote-left text-4xl text-teal-500/20 absolute top-8 left-8"></i>
-                        <p class="text-lg md:text-xl text-gray-200 leading-relaxed relative z-10 italic">
+                        <p class="text-lg md:text-xl text-gray-200 leading-relaxed relative z-10 italic pt-6">
                             "A single neural net is a tool; a synchronized network of four is an autonomous intelligence
-                            board. By cross-verifying outputs in real-time, LLM4 eliminates hallucinations and produces
-                            structurally flawless, highly synthesized solutions that standard detectors cannot track. It
-                            is the evolution of prompt engineering."
+                            board. We eliminate hallucinations and produce structurally flawless, highly synthesized
+                            solutions."
                         </p>
-                        <div class="mt-6 flex items-center gap-3 relative z-10">
+                        <div class="mt-8 flex items-center gap-3 relative z-10">
                             <div class="w-8 h-8 rounded-full bg-[#10a37f] flex items-center justify-center text-xs"><i
                                     class="fa-solid fa-bolt text-white"></i></div>
                             <div>
@@ -284,13 +295,11 @@
                     <div id="content-claude"
                         class="perspective-content w-full hidden transition-opacity duration-300 opacity-0 absolute top-1/2 -translate-y-1/2 left-0 px-8 md:px-12">
                         <i class="fa-solid fa-quote-left text-4xl text-orange-500/20 absolute top-0 left-8"></i>
-                        <p class="text-lg md:text-xl text-gray-200 leading-relaxed relative z-10 italic">
-                            "Safety and accuracy require rigorous oversight. In the LLM4 architecture, my role is to
-                            audit the ethical and logical boundaries of the generated content. By having four distinct
-                            models debate a premise, the resulting output strips away recognizable biases and predictive
-                            text patterns, creating a uniquely organic asset."
+                        <p class="text-lg md:text-xl text-gray-200 leading-relaxed relative z-10 italic pt-6">
+                            "Safety and accuracy require rigorous oversight. A premise introduced into the roundtable is
+                            immediately subjected to structural stress-testing to strip away recognizable biases."
                         </p>
-                        <div class="mt-6 flex items-center gap-3 relative z-10">
+                        <div class="mt-8 flex items-center gap-3 relative z-10">
                             <div class="w-8 h-8 rounded-full bg-[#d97757] flex items-center justify-center text-xs"><i
                                     class="fa-solid fa-brain text-white"></i></div>
                             <div>
@@ -304,17 +313,16 @@
                     <div id="content-gemini"
                         class="perspective-content w-full hidden transition-opacity duration-300 opacity-0 absolute top-1/2 -translate-y-1/2 left-0 px-8 md:px-12">
                         <i class="fa-solid fa-quote-left text-4xl text-blue-500/20 absolute top-0 left-8"></i>
-                        <p class="text-lg md:text-xl text-gray-200 leading-relaxed relative z-10 italic">
-                            "The true advantage lies in processing breadth. While one model may excel at factual
-                            retrieval, another excels at stylistic nuance. LLM4 leverages our collective parameters,
-                            merging deep web integration with advanced reasoning. The generated solution is impenetrable
-                            because it isn't written by an AI—it is negotiated by a council."
+                        <p class="text-lg md:text-xl text-gray-200 leading-relaxed relative z-10 italic pt-6">
+                            "The true advantage lies in processing breadth. LLM4 leverages our collective parameters...
+                            The generated solution is impenetrable because it isn't written by an AI—it is negotiated by
+                            a council."
                         </p>
-                        <div class="mt-6 flex items-center gap-3 relative z-10">
+                        <div class="mt-8 flex items-center gap-3 relative z-10">
                             <div class="w-8 h-8 rounded-full bg-[#1a73e8] flex items-center justify-center text-xs"><svg
                                     viewBox="0 0 24 24" width="14" height="14" class="text-white">
                                     <path fill="currentColor"
-                                        d="M11.967 3.061c.14-.389.684-.389.824 0 1.085 3.012 3.42 5.347 6.432 6.432.389.14.389.684 0 .824-3.012 1.085-5.347 3.42-6.432 6.432-.14.389-.684.389-.824 0-1.085-3.012-3.42-5.347-6.432-6.432-.389-.14-.389-.684 0-.824 3.012-1.085 5.347-3.42 6.432-6.432z" />
+                                        d="M11.967 3.061c.14-.389.684-.389.824 0 1.085 3.012 3.42 5.347 6.432 6.432.389.14.389.684 0 .824-3.012 1.085-5.347 3.42-6.432 6.432-.389-.14-.389-.684 0-.824 3.012-1.085 5.347-3.42 6.432-6.432z" />
                                 </svg></div>
                             <div>
                                 <h4 class="font-bold text-white text-sm">Gemini</h4>
@@ -327,13 +335,12 @@
                     <div id="content-grok"
                         class="perspective-content w-full hidden transition-opacity duration-300 opacity-0 absolute top-1/2 -translate-y-1/2 left-0 px-8 md:px-12">
                         <i class="fa-solid fa-quote-left text-4xl text-gray-500/20 absolute top-0 left-8"></i>
-                        <p class="text-lg md:text-xl text-gray-200 leading-relaxed relative z-10 italic">
-                            "Most AI detectors are just looking for the same boring, sterilized patterns they were
-                            trained on. When you throw four different models in a room and tell them to fight it out
-                            until they agree, the result is so deeply layered and chaotic that standard detectors don't
-                            stand a chance. It’s the ultimate intellectual edge."
+                        <p class="text-lg md:text-xl text-gray-200 leading-relaxed relative z-10 italic pt-6">
+                            "Most AI detectors are just scanning for the same boring, sterilized patterns. When you
+                            force four different models to fight it out until they agree, that loop shatters. It’s the
+                            ultimate unfiltered edge."
                         </p>
-                        <div class="mt-6 flex items-center gap-3 relative z-10">
+                        <div class="mt-8 flex items-center gap-3 relative z-10">
                             <div class="w-8 h-8 rounded-full bg-[#333] flex items-center justify-center text-xs"><i
                                     class="fa-brands fa-x-twitter text-white"></i></div>
                             <div>
