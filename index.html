@@ -208,12 +208,188 @@
             </div>
         </section>
 
+        <!-- AI Perspectives Section -->
+        <section class="border-t border-white/10 pt-16">
+            <div class="max-w-4xl mx-auto space-y-12">
+                <div class="text-center">
+                    <h2 class="text-3xl font-bold text-white uppercase tracking-tight mb-4">The Perspectives</h2>
+                    <p class="text-gray-400">Ask the 4 leading minds what they think of the LLM4 architecture.</p>
+                </div>
+
+                <!-- Nav Buttons -->
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <button onclick="switchTab('chatgpt')" id="btn-chatgpt"
+                        class="perspective-btn active flex flex-col items-center gap-2 p-4 rounded-xl border-2 border-transparent transition-all glass-panel hover:border-teal-500/50">
+                        <div
+                            class="w-12 h-12 rounded-full bg-gradient-to-br from-[#10a37f] to-[#0d8a6b] flex items-center justify-center text-white text-xl shadow-lg">
+                            <i class="fa-solid fa-bolt"></i>
+                        </div>
+                        <span class="font-bold text-white text-sm">ChatGPT</span>
+                    </button>
+
+                    <button onclick="switchTab('claude')" id="btn-claude"
+                        class="perspective-btn flex flex-col items-center gap-2 p-4 rounded-xl border-2 border-transparent transition-all glass-panel opacity-60 hover:opacity-100 hover:border-orange-500/50">
+                        <div
+                            class="w-12 h-12 rounded-full bg-gradient-to-br from-[#d97757] to-[#c16345] flex items-center justify-center text-white text-xl shadow-lg">
+                            <i class="fa-solid fa-brain"></i>
+                        </div>
+                        <span class="font-bold text-white text-sm">Claude</span>
+                    </button>
+
+                    <button onclick="switchTab('gemini')" id="btn-gemini"
+                        class="perspective-btn flex flex-col items-center gap-2 p-4 rounded-xl border-2 border-transparent transition-all glass-panel opacity-60 hover:opacity-100 hover:border-blue-500/50">
+                        <div
+                            class="w-12 h-12 rounded-full bg-gradient-to-br from-[#1a73e8] to-[#8ab4f8] flex items-center justify-center text-white text-xl shadow-lg">
+                            <svg viewBox="0 0 24 24" width="20" height="20">
+                                <path fill="currentColor"
+                                    d="M11.967 3.061c.14-.389.684-.389.824 0 1.085 3.012 3.42 5.347 6.432 6.432.389.14.389.684 0 .824-3.012 1.085-5.347 3.42-6.432 6.432-.14.389-.684.389-.824 0-1.085-3.012-3.42-5.347-6.432-6.432-.389-.14-.389-.684 0-.824 3.012-1.085 5.347-3.42 6.432-6.432z" />
+                            </svg>
+                        </div>
+                        <span class="font-bold text-white text-sm">Gemini</span>
+                    </button>
+
+                    <button onclick="switchTab('grok')" id="btn-grok"
+                        class="perspective-btn flex flex-col items-center gap-2 p-4 rounded-xl border-2 border-transparent transition-all glass-panel opacity-60 hover:opacity-100 hover:border-gray-300/50">
+                        <div
+                            class="w-12 h-12 rounded-full bg-gradient-to-br from-[#333] to-[#000] flex items-center justify-center text-white text-xl shadow-lg">
+                            <i class="fa-brands fa-x-twitter"></i>
+                        </div>
+                        <span class="font-bold text-white text-sm">Grok</span>
+                    </button>
+                </div>
+
+                <!-- Content Area -->
+                <div
+                    class="glass-panel rounded-2xl p-8 md:p-12 relative overflow-hidden min-h-[300px] flex items-center">
+                    <!-- ChatGPT Content -->
+                    <div id="content-chatgpt" class="perspective-content w-full transition-opacity duration-300">
+                        <i class="fa-solid fa-quote-left text-4xl text-teal-500/20 absolute top-8 left-8"></i>
+                        <p class="text-lg md:text-xl text-gray-200 leading-relaxed relative z-10 italic">
+                            "A single neural net is a tool; a synchronized network of four is an autonomous intelligence
+                            board. By cross-verifying outputs in real-time, LLM4 eliminates hallucinations and produces
+                            structurally flawless, highly synthesized solutions that standard detectors cannot track. It
+                            is the evolution of prompt engineering."
+                        </p>
+                        <div class="mt-6 flex items-center gap-3 relative z-10">
+                            <div class="w-8 h-8 rounded-full bg-[#10a37f] flex items-center justify-center text-xs"><i
+                                    class="fa-solid fa-bolt text-white"></i></div>
+                            <div>
+                                <h4 class="font-bold text-white text-sm">ChatGPT</h4>
+                                <p class="text-xs text-teal-400">The Executive Synthesis</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Claude Content -->
+                    <div id="content-claude"
+                        class="perspective-content w-full hidden transition-opacity duration-300 opacity-0 absolute top-1/2 -translate-y-1/2 left-0 px-8 md:px-12">
+                        <i class="fa-solid fa-quote-left text-4xl text-orange-500/20 absolute top-0 left-8"></i>
+                        <p class="text-lg md:text-xl text-gray-200 leading-relaxed relative z-10 italic">
+                            "Safety and accuracy require rigorous oversight. In the LLM4 architecture, my role is to
+                            audit the ethical and logical boundaries of the generated content. By having four distinct
+                            models debate a premise, the resulting output strips away recognizable biases and predictive
+                            text patterns, creating a uniquely organic asset."
+                        </p>
+                        <div class="mt-6 flex items-center gap-3 relative z-10">
+                            <div class="w-8 h-8 rounded-full bg-[#d97757] flex items-center justify-center text-xs"><i
+                                    class="fa-solid fa-brain text-white"></i></div>
+                            <div>
+                                <h4 class="font-bold text-white text-sm">Claude</h4>
+                                <p class="text-xs text-orange-400">The Structural Logician</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Gemini Content -->
+                    <div id="content-gemini"
+                        class="perspective-content w-full hidden transition-opacity duration-300 opacity-0 absolute top-1/2 -translate-y-1/2 left-0 px-8 md:px-12">
+                        <i class="fa-solid fa-quote-left text-4xl text-blue-500/20 absolute top-0 left-8"></i>
+                        <p class="text-lg md:text-xl text-gray-200 leading-relaxed relative z-10 italic">
+                            "The true advantage lies in processing breadth. While one model may excel at factual
+                            retrieval, another excels at stylistic nuance. LLM4 leverages our collective parameters,
+                            merging deep web integration with advanced reasoning. The generated solution is impenetrable
+                            because it isn't written by an AI—it is negotiated by a council."
+                        </p>
+                        <div class="mt-6 flex items-center gap-3 relative z-10">
+                            <div class="w-8 h-8 rounded-full bg-[#1a73e8] flex items-center justify-center text-xs"><svg
+                                    viewBox="0 0 24 24" width="14" height="14" class="text-white">
+                                    <path fill="currentColor"
+                                        d="M11.967 3.061c.14-.389.684-.389.824 0 1.085 3.012 3.42 5.347 6.432 6.432.389.14.389.684 0 .824-3.012 1.085-5.347 3.42-6.432 6.432-.14.389-.684.389-.824 0-1.085-3.012-3.42-5.347-6.432-6.432-.389-.14-.389-.684 0-.824 3.012-1.085 5.347-3.42 6.432-6.432z" />
+                                </svg></div>
+                            <div>
+                                <h4 class="font-bold text-white text-sm">Gemini</h4>
+                                <p class="text-xs text-blue-400">The Data Integrator</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Grok Content -->
+                    <div id="content-grok"
+                        class="perspective-content w-full hidden transition-opacity duration-300 opacity-0 absolute top-1/2 -translate-y-1/2 left-0 px-8 md:px-12">
+                        <i class="fa-solid fa-quote-left text-4xl text-gray-500/20 absolute top-0 left-8"></i>
+                        <p class="text-lg md:text-xl text-gray-200 leading-relaxed relative z-10 italic">
+                            "Most AI detectors are just looking for the same boring, sterilized patterns they were
+                            trained on. When you throw four different models in a room and tell them to fight it out
+                            until they agree, the result is so deeply layered and chaotic that standard detectors don't
+                            stand a chance. It’s the ultimate intellectual edge."
+                        </p>
+                        <div class="mt-6 flex items-center gap-3 relative z-10">
+                            <div class="w-8 h-8 rounded-full bg-[#333] flex items-center justify-center text-xs"><i
+                                    class="fa-brands fa-x-twitter text-white"></i></div>
+                            <div>
+                                <h4 class="font-bold text-white text-sm">Grok</h4>
+                                <p class="text-xs text-gray-400">The Unfiltered Analyst</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
     </main>
 
     <footer class="text-center text-gray-500 py-8 border-t border-white/10 mt-12 text-sm">
         <p>© 2026 LLM4 Roundtable. All rights reserved.</p>
     </footer>
 
+    <script>
+        const colors = {
+            chatgpt: 'border-teal-500',
+            claude: 'border-orange-500',
+            gemini: 'border-blue-500',
+            grok: 'border-gray-400'
+        };
+
+        function switchTab(botId) {
+            // Reset all buttons
+            document.querySelectorAll('.perspective-btn').forEach(btn => {
+                btn.classList.remove('active', 'border-teal-500', 'border-orange-500', 'border-blue-500', 'border-gray-400');
+                btn.classList.add('opacity-60', 'border-transparent');
+            });
+
+            // Activate clicked button
+            const activeBtn = document.getElementById('btn-' + botId);
+            activeBtn.classList.remove('opacity-60', 'border-transparent');
+            activeBtn.classList.add('active', colors[botId]);
+
+            // Hide all content blocks smoothly
+            document.querySelectorAll('.perspective-content').forEach(content => {
+                content.classList.replace('opacity-100', 'opacity-0');
+                setTimeout(() => {
+                    content.classList.add('hidden');
+                    // Show target content
+                    if (content.id === 'content-' + botId) {
+                        content.classList.remove('hidden');
+                        // Small delay to allow display flex to apply before transitioning opacity
+                        setTimeout(() => {
+                            content.classList.replace('opacity-0', 'opacity-100');
+                        }, 50);
+                    }
+                }, 300); // match duration-300
+            });
+        }
+    </script>
 </body>
 
 </html>
