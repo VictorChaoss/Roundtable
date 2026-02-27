@@ -1070,12 +1070,12 @@ textarea::placeholder {
     .roundtable-wrapper {
         display: flex;
         flex-direction: row;
-        justify-content: space-evenly;
+        justify-content: center;
         align-items: center;
         width: 100%;
         height: 120px;
         padding: 0.5rem 0;
-        gap: 0;
+        gap: 1.5rem;
         margin: 0;
         transform: none;
     }
@@ -1108,7 +1108,8 @@ textarea::placeholder {
         opacity: 1;
     }
 
-    /* Ensure colors are inherited for the boxShadow trick above */
+    /* Ensure colors are inherited for the boxShadow trick above, 
+       but preserve the text/icon color separately */
     .avatar.chatgpt {
         color: #10a37f;
     }
@@ -1133,11 +1134,22 @@ textarea::placeholder {
     .avatar {
         width: 48px;
         height: 48px;
-        font-size: 1.2rem;
+        font-size: 1.5rem;
+        /* Ensure icons have a baseline size */
         border-radius: 14px;
         margin-bottom: 4px;
         border: 2px solid transparent;
         transition: border-color 0.3s, box-shadow 0.3s;
+        display: flex;
+        /* keep icon centered */
+        justify-content: center;
+        align-items: center;
+    }
+
+    /* Force the icon itself to be explicitly white inside the colored background */
+    .avatar i,
+    .avatar svg {
+        color: white !important;
     }
 
     .avatar svg {
@@ -1157,26 +1169,11 @@ textarea::placeholder {
 
     /* Shared Speech Bubble Area */
     .speech-bubble {
-        position: fixed !important;
-        top: 130px !important;
-        /* Just below avatars */
-        left: 50% !important;
-        right: auto !important;
-        transform: translateX(-50%) scale(0.9) !important;
-        width: 95% !important;
-        max-width: 400px;
-        z-index: 100;
-        margin: auto;
-        padding: 1rem;
-        max-height: none;
-        background: rgba(25, 28, 41, 0.95);
-        border: 1px solid var(--panel-border);
+        display: none !important;
     }
 
     .speech-bubble.visible {
-        transform: translateX(-50%) scale(1) !important;
-        opacity: 1;
-        display: flex;
+        display: none !important;
     }
 
     /* Bubble Color overrides depending on who is talking */
