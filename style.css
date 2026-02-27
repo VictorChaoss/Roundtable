@@ -948,78 +948,116 @@ textarea::placeholder {
     gap: 1rem;
 }
 
-/* Mobile Responsiveness - V2 Side-by-Side UI */
+/* Base style for the back link */
+.back-link {
+    color: var(--text-secondary);
+    margin-right: 0.5rem;
+    transition: color 0.2s;
+}
+
+.back-link:hover {
+    color: var(--text-primary);
+}
+
+/* Mobile Responsiveness - V2 Side-by-Side UI Adapted */
 @media (max-width: 768px) {
     body {
         overflow-y: auto;
     }
 
     .app-container {
+        display: flex;
         flex-direction: column;
         height: 100vh;
         overflow: hidden;
-        /* Prevent body scroll, handle inside containers */
         padding: 0;
         gap: 0;
     }
 
-    /* Make sidebar a full-screen mobile modal, hidden by default */
-    .sidebar {
-        position: fixed;
-        top: 100%;
-        /* Hidden below screen */
-        left: 0;
-        width: 100%;
-        height: 100%;
-        max-height: 100%;
-        z-index: 100;
-        border-radius: 0;
-        transition: top 0.3s ease-in-out;
-        background: rgba(15, 17, 26, 0.98);
-        backdrop-filter: blur(20px);
+    /* WE WANT: Avatars ABOVE Transcript.
+       Since .app-container displays standard block/column order,
+       we will use Flexbox ordering to swap them if necessary, 
+       but here, roundtable-area is naturally below the sidebar in DOM.
+       Wait, in app.html, sidebar is first, then roundtable-area.
+       So we MUST use Flexbox ordering to swap. */
+    .roundtable-area {
+        order: 1;
+        /* Avatars on top */
+        height: auto;
+        flex: none;
+        /* Do not grow */
+        overflow-y: visible;
+        overflow-x: hidden;
+        margin-bottom: 0;
+        /* Removing space for bottom input since transcript is there */
+        padding: 0.5rem;
+        background: var(--panel-bg);
+        border-bottom: 1px solid var(--panel-border);
+        z-index: 20;
     }
 
-    .sidebar.open-mobile {
-        top: 0;
+    /* Make sidebar inline below the avatars instead of a sliding modal */
+    .sidebar {
+        order: 2;
+        /* Transcript below avatars */
+        position: static;
+        /* Overriding previous 'fixed' modal behavior */
+        width: 100%;
+        flex: 1;
+        /* Take remaining height */
+        height: auto;
+        max-height: calc(100vh - 120px - 70px);
+        /* Fill space minus avatars and input */
+        z-index: 10;
+        border-radius: 0;
+        border: none;
+        display: flex;
+        flex-direction: column;
+        background: transparent;
+        backdrop-filter: none;
+    }
+
+    /* Since sidebar is now persistent inline, hide its close button */
+    #close-transcript-btn {
+        display: none !important;
+    }
+
+    /* Hide brand section in mobile to save vertical space */
+    .brand-section {
+        display: none;
+    }
+
+    .sidebar-header {
+        padding: 0.75rem 1rem;
+        background: rgba(0, 0, 0, 0.2);
+    }
+
+    .sidebar-header h2 {
+        font-size: 1rem;
     }
 
     .transcript-container {
-        max-height: calc(100vh - 160px);
-        /* Full height minus headers */
+        max-height: none;
+        flex: 1;
+        overflow-y: auto;
+        padding-bottom: 90px;
+        /* Space for input area */
+        padding: 0.75rem 1rem;
+        gap: 0.75rem;
+    }
+
+    .transcript-msg {
+        font-size: 0.8rem;
+        padding: 0.75rem;
+    }
+
+    .transcript-msg strong {
+        font-size: 0.7rem;
     }
 
     .mobile-only {
+        /* Keep any other mobile only elements if needed, but we hid close btn */
         display: flex !important;
-    }
-
-    .sidebar-actions {
-        display: flex;
-        gap: 0.5rem;
-    }
-
-    /* Main Area */
-    .roundtable-area {
-        height: auto;
-        flex-grow: 1;
-        overflow-y: auto;
-        overflow-x: hidden;
-        margin-bottom: 5rem;
-        /* Space for input area */
-        padding: 1rem;
-    }
-
-    /* Wrapper becomes a top row for the 4 bots */
-    .roundtable-wrapper {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-around;
-        align-items: flex-start;
-        position: relative;
-        height: 100%;
-        width: 100%;
-        padding-top: 1rem;
-        transform: none;
-        margin-top: 0;
     }
 
     /* HIDE the roundtable graphics */
@@ -1028,17 +1066,63 @@ textarea::placeholder {
         display: none !important;
     }
 
+    /* Wrapper becomes a top row for the 4 bots */
+    .roundtable-wrapper {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-evenly;
+        align-items: center;
+        width: 100%;
+        height: 120px;
+        padding: 0.5rem 0;
+        gap: 0;
+        margin: 0;
+        transform: none;
+    }
+
     /* Format AI Seats as small vertical blocks in a row */
     .ai-seat {
-        position: static !important;
-        /* Allow speech bubbles to break out to wrapper */
-        width: 60px;
+        position: relative !important;
+        width: auto;
         height: auto;
         display: flex;
         flex-direction: column;
         align-items: center;
         padding: 0;
-        transition: opacity 0.3s;
+        transition: transform 0.3s, opacity 0.3s;
+        transform: none !important;
+        top: auto !important;
+        bottom: auto !important;
+        left: auto !important;
+        right: auto !important;
+    }
+
+    /* Enhanced lighting up effect for active speaker on mobile */
+    .ai-seat.speaking {
+        transform: scale(1.15) !important;
+        z-index: 50;
+    }
+
+    .ai-seat.speaking .avatar {
+        box-shadow: 0 0 25px currentColor, inset 0 0 10px currentColor !important;
+        opacity: 1;
+    }
+
+    /* Ensure colors are inherited for the boxShadow trick above */
+    .avatar.chatgpt {
+        color: #10a37f;
+    }
+
+    .avatar.claude {
+        color: #d97757;
+    }
+
+    .avatar.gemini {
+        color: #1a73e8;
+    }
+
+    .avatar.grok {
+        color: #ffffff;
     }
 
     /* Dim non-speaking seats */
@@ -1047,76 +1131,55 @@ textarea::placeholder {
     }
 
     .avatar {
-        width: 44px;
-        height: 44px;
+        width: 48px;
+        height: 48px;
         font-size: 1.2rem;
+        border-radius: 14px;
         margin-bottom: 4px;
         border: 2px solid transparent;
         transition: border-color 0.3s, box-shadow 0.3s;
     }
 
     .avatar svg {
-        width: 20px;
-        height: 20px;
-    }
-
-    /* Glow avatars when speaking */
-    #seat-chatgpt.speaking .avatar {
-        border-color: #10a37f;
-        box-shadow: 0 0 15px rgba(16, 163, 127, 0.5);
-    }
-
-    #seat-claude.speaking .avatar {
-        border-color: #d97757;
-        box-shadow: 0 0 15px rgba(217, 119, 87, 0.5);
-    }
-
-    #seat-gemini.speaking .avatar {
-        border-color: #1a73e8;
-        box-shadow: 0 0 15px rgba(26, 115, 232, 0.5);
-    }
-
-    #seat-grok.speaking .avatar {
-        border-color: #ffffff;
-        box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+        width: 24px;
+        height: 24px;
     }
 
     .ai-badge {
-        font-size: 0.7rem;
-        margin-top: 4px;
+        font-size: 0.65rem;
+        margin-top: 6px;
         text-shadow: none;
     }
 
     .ai-badge small {
         display: none;
-        /* Hide sub-labels to save space */
     }
 
     /* Shared Speech Bubble Area */
     .speech-bubble {
-        position: absolute !important;
-        top: 100px !important;
-        /* Position below the avatars */
-        left: 0 !important;
-        right: 0 !important;
-        transform: none !important;
-        width: 100%;
+        position: fixed !important;
+        top: 130px !important;
+        /* Just below avatars */
+        left: 50% !important;
+        right: auto !important;
+        transform: translateX(-50%) scale(0.9) !important;
+        width: 95% !important;
+        max-width: 400px;
+        z-index: 100;
+        margin: auto;
+        padding: 1rem;
         max-height: none;
-        padding: 1.5rem;
-        border-radius: 16px;
-        opacity: 0;
-        display: none;
-        margin: 0;
         background: rgba(25, 28, 41, 0.95);
         border: 1px solid var(--panel-border);
     }
 
     .speech-bubble.visible {
+        transform: translateX(-50%) scale(1) !important;
         opacity: 1;
         display: flex;
     }
 
-    /* Specific Glows for Shared Message Box */
+    /* Bubble Color overrides depending on who is talking */
     #bubble-chatgpt {
         box-shadow: 0 10px 40px rgba(16, 163, 127, 0.15), inset 0 2px 0 #10a37f;
     }
@@ -1133,8 +1196,13 @@ textarea::placeholder {
         box-shadow: 0 10px 40px rgba(255, 255, 255, 0.05), inset 0 2px 0 #ffffff;
     }
 
+    .speech-bubble::before,
+    .speech-bubble::after {
+        display: none !important;
+    }
+
     .bubble-content {
-        font-size: 0.95rem;
+        font-size: 0.85rem;
         max-height: none;
         overflow-y: visible;
     }
@@ -1147,10 +1215,19 @@ textarea::placeholder {
         right: 0;
         width: 100%;
         border-radius: 20px 20px 0 0;
-        z-index: 50;
-        padding: 1rem;
+        z-index: 200;
+        padding: 0.75rem 1rem;
         background: rgba(15, 17, 26, 0.95);
         backdrop-filter: blur(20px);
         box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.5);
+    }
+
+    textarea {
+        font-size: 0.95rem;
+    }
+
+    /* Hide the transcript button from the input bar since transcript is always visible now */
+    #mobile-transcript-btn {
+        display: none !important;
     }
 }
