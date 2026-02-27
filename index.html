@@ -59,10 +59,322 @@
             animation: pulse-success 1.5s ease-out;
             border-color: rgba(16, 163, 127, 0.5) !important;
         }
+
+        /* ═══ ANIMATED BACKGROUND ═══ */
+        .animated-bg {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .bg-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(100px);
+            opacity: 0.07;
+            animation: orbFloat var(--d, 20s) ease-in-out infinite alternate;
+        }
+
+        .bg-orb-1 {
+            width: 600px;
+            height: 600px;
+            background: #6366f1;
+            top: -10%;
+            left: -5%;
+            --d: 22s;
+        }
+
+        .bg-orb-2 {
+            width: 500px;
+            height: 500px;
+            background: #10a37f;
+            top: 20%;
+            right: -10%;
+            --d: 18s;
+            animation-delay: -5s;
+        }
+
+        .bg-orb-3 {
+            width: 550px;
+            height: 550px;
+            background: #d97757;
+            bottom: 10%;
+            left: 10%;
+            --d: 25s;
+            animation-delay: -10s;
+        }
+
+        .bg-orb-4 {
+            width: 400px;
+            height: 400px;
+            background: #1a73e8;
+            bottom: -5%;
+            right: 20%;
+            --d: 20s;
+            animation-delay: -15s;
+        }
+
+        .bg-orb-5 {
+            width: 350px;
+            height: 350px;
+            background: #a855f7;
+            top: 50%;
+            left: 40%;
+            --d: 28s;
+            animation-delay: -8s;
+        }
+
+        @keyframes orbFloat {
+            0% {
+                transform: translate(0, 0) scale(1);
+            }
+
+            33% {
+                transform: translate(40px, -30px) scale(1.1);
+            }
+
+            66% {
+                transform: translate(-20px, 20px) scale(0.95);
+            }
+
+            100% {
+                transform: translate(30px, -10px) scale(1.05);
+            }
+        }
+
+        .bg-particle {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0;
+            animation: bgPart var(--pd, 8s) var(--pdl, 0s) ease-in-out infinite;
+        }
+
+        @keyframes bgPart {
+            0% {
+                opacity: 0;
+                transform: translateY(0) scale(0.5);
+            }
+
+            20% {
+                opacity: var(--po, 0.4);
+            }
+
+            80% {
+                opacity: var(--po2, 0.15);
+            }
+
+            100% {
+                opacity: 0;
+                transform: translateY(var(--py, -80px)) scale(1);
+            }
+        }
+
+        /* Grid overlay */
+        .bg-grid {
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(99, 102, 241, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(99, 102, 241, 0.03) 1px, transparent 1px);
+            background-size: 80px 80px;
+            mask-image: radial-gradient(ellipse at 50% 30%, #000 0%, transparent 70%);
+            -webkit-mask-image: radial-gradient(ellipse at 50% 30%, #000 0%, transparent 70%);
+        }
+
+        /* Content needs to be above background */
+        header,
+        main,
+        footer {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ═══ HERO 3D LOGO ═══ */
+        .hero-logo-stage {
+            perspective: 800px;
+            width: 320px;
+            height: 320px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .hero-logo-cube {
+            width: 100%;
+            height: 100%;
+            transform-style: preserve-3d;
+            animation: heroTilt 8s ease-in-out infinite;
+        }
+
+        .hero-logo-cube .edge-layer {
+            position: absolute;
+            inset: 0;
+        }
+
+        .hero-logo-cube .edge-layer img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            filter: brightness(0.2) saturate(0.5);
+        }
+
+        .hero-logo-cube .face-front {
+            position: absolute;
+            inset: 0;
+            transform: translateZ(14px);
+        }
+
+        .hero-logo-cube .face-front img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .hero-logo-cube .light-fx {
+            position: absolute;
+            inset: 0;
+            transform: translateZ(15px);
+            pointer-events: none;
+            mix-blend-mode: soft-light;
+            opacity: 0.4;
+            animation: heroLight 8s ease-in-out infinite;
+            border-radius: 30%;
+        }
+
+        @keyframes heroLight {
+            0% {
+                background: radial-gradient(ellipse at 30% 25%, rgba(255, 255, 255, 0.5), transparent 55%);
+            }
+
+            25% {
+                background: radial-gradient(ellipse at 65% 30%, rgba(255, 255, 255, 0.4), transparent 55%);
+            }
+
+            50% {
+                background: radial-gradient(ellipse at 55% 65%, rgba(255, 255, 255, 0.3), transparent 55%);
+            }
+
+            75% {
+                background: radial-gradient(ellipse at 35% 55%, rgba(255, 255, 255, 0.4), transparent 55%);
+            }
+
+            100% {
+                background: radial-gradient(ellipse at 30% 25%, rgba(255, 255, 255, 0.5), transparent 55%);
+            }
+        }
+
+        @keyframes heroTilt {
+            0% {
+                transform: rotateX(12deg) rotateY(-8deg) rotateZ(-1deg) translateY(0);
+            }
+
+            20% {
+                transform: rotateX(-3deg) rotateY(14deg) rotateZ(1.5deg) translateY(-8px);
+            }
+
+            40% {
+                transform: rotateX(8deg) rotateY(8deg) rotateZ(-0.5deg) translateY(-4px);
+            }
+
+            60% {
+                transform: rotateX(-10deg) rotateY(-12deg) rotateZ(1deg) translateY(-12px);
+            }
+
+            80% {
+                transform: rotateX(5deg) rotateY(-6deg) rotateZ(-0.5deg) translateY(-3px);
+            }
+
+            100% {
+                transform: rotateX(12deg) rotateY(-8deg) rotateZ(-1deg) translateY(0);
+            }
+        }
+
+        @keyframes heroHover {
+            0% {
+                transform: rotateX(5deg) rotateY(0deg) translateY(0px);
+            }
+
+            50% {
+                transform: rotateX(-5deg) rotateY(0deg) translateY(-18px);
+            }
+
+            100% {
+                transform: rotateX(5deg) rotateY(0deg) translateY(0px);
+            }
+        }
+
+        .hero-logo-shadow {
+            width: 200px;
+            height: 30px;
+            margin: -10px auto 0;
+            background: radial-gradient(ellipse, rgba(99, 102, 241, 0.15), transparent 70%);
+            border-radius: 50%;
+            filter: blur(8px);
+            animation: heroShadow 8s ease-in-out infinite;
+        }
+
+        @keyframes heroShadow {
+
+            0%,
+            100% {
+                transform: scaleX(1);
+                opacity: 0.7;
+            }
+
+            30% {
+                transform: scaleX(1.1);
+                opacity: 0.4;
+            }
+
+            60% {
+                transform: scaleX(1.15);
+                opacity: 0.35;
+            }
+        }
+
+        /* Hero glow particles */
+        .hero-particle {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0;
+            pointer-events: none;
+            animation: heroPart var(--hd, 6s) var(--hdl, 0s) ease-in-out infinite;
+        }
+
+        @keyframes heroPart {
+            0% {
+                opacity: 0;
+                transform: translate(0, 0) scale(0.5);
+            }
+
+            25% {
+                opacity: 0.6;
+            }
+
+            75% {
+                opacity: 0.15;
+            }
+
+            100% {
+                opacity: 0;
+                transform: translate(var(--hdx, 20px), var(--hdy, -50px)) scale(1);
+            }
+        }
     </style>
 </head>
 
 <body class="min-h-screen pb-20 selection:bg-indigo-500/30">
+
+    <!-- Animated Background -->
+    <div class="animated-bg" id="animBg">
+        <div class="bg-orb bg-orb-1"></div>
+        <div class="bg-orb bg-orb-2"></div>
+        <div class="bg-orb bg-orb-3"></div>
+        <div class="bg-orb bg-orb-4"></div>
+        <div class="bg-orb bg-orb-5"></div>
+        <div class="bg-grid"></div>
+    </div>
 
     <!-- Header -->
     <header
@@ -82,13 +394,19 @@
     <main class="max-w-5xl mx-auto px-4 py-12 space-y-20">
 
         <!-- Hero Section -->
-        <section class="text-center space-y-6 pt-8 pb-12">
-            <img src="logo.png" alt="LLM4 Logo"
-                class="w-32 h-32 mx-auto rounded-2xl shadow-2xl shadow-indigo-500/20 object-cover mb-8">
-            <h1 class="text-5xl md:text-7xl font-extrabold gradient-text tracking-tight uppercase">
-                The Roundtable
+        <section class="text-center space-y-6 pt-8 pb-12 relative">
+
+            <!-- 3D Animated Logo BEHIND text -->
+            <div class="hero-logo-stage" id="heroLogoStage"
+                style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); z-index:0; width:340px; height:340px; opacity:0.35; pointer-events:none;">
+                <div class="hero-logo-cube" id="heroLogoCube" style="animation: heroHover 6s ease-in-out infinite;">
+                </div>
+            </div>
+
+            <h1 class="text-5xl md:text-7xl font-extrabold gradient-text tracking-tight uppercase relative z-10">
+                LLM4 Roundtable
             </h1>
-            <p class="text-gray-400 text-lg md:text-xl max-w-2xl mx-auto">
+            <p class="text-gray-400 text-lg md:text-xl max-w-2xl mx-auto relative z-10">
                 Watch the world's most advanced AI models debate autonomously in real-time.
             </p>
         </section>
@@ -446,6 +764,79 @@
     </footer>
 
     <script>
+        // ═══ ANIMATED BACKGROUND PARTICLES ═══
+        (function () {
+            const bg = document.getElementById('animBg');
+            const colors = ['#6366f1', '#10a37f', '#d97757', '#1a73e8', '#a855f7', '#818cf8'];
+            for (let i = 0; i < 40; i++) {
+                const p = document.createElement('div');
+                p.className = 'bg-particle';
+                p.style.left = Math.random() * 100 + '%';
+                p.style.top = Math.random() * 100 + '%';
+                p.style.background = colors[~~(Math.random() * colors.length)];
+                const s = 2 + Math.random() * 4;
+                p.style.width = s + 'px';
+                p.style.height = s + 'px';
+                p.style.setProperty('--pd', (6 + Math.random() * 8) + 's');
+                p.style.setProperty('--pdl', (Math.random() * 10) + 's');
+                p.style.setProperty('--py', (-50 - Math.random() * 80) + 'px');
+                p.style.setProperty('--po', (0.2 + Math.random() * 0.3).toString());
+                p.style.setProperty('--po2', (0.05 + Math.random() * 0.1).toString());
+                bg.appendChild(p);
+            }
+        })();
+
+        // ═══ HERO 3D LOGO ═══
+        (function () {
+            const LOGO = 'logo_3d.png';
+            const cube = document.getElementById('heroLogoCube');
+            const stage = document.getElementById('heroLogoStage');
+
+            // Depth layers
+            [13, 11, 9, 7, 5, 3, 1, -1, -3].forEach(z => {
+                const d = document.createElement('div');
+                d.className = 'edge-layer';
+                d.style.transform = `translateZ(${z}px)`;
+                const img = document.createElement('img');
+                img.src = LOGO;
+                d.appendChild(img);
+                cube.appendChild(d);
+            });
+
+            // Front face
+            const front = document.createElement('div');
+            front.className = 'face-front';
+            const fi = document.createElement('img');
+            fi.src = LOGO;
+            front.appendChild(fi);
+            cube.appendChild(front);
+
+            // Light
+            const lx = document.createElement('div');
+            lx.className = 'light-fx';
+            cube.appendChild(lx);
+
+            // Particles around logo
+            const pc = ['#6366f1', '#10a37f', '#d97757', '#1a73e8', '#a855f7'];
+            for (let i = 0; i < 12; i++) {
+                const p = document.createElement('div');
+                p.className = 'hero-particle';
+                const a = Math.random() * Math.PI * 2;
+                const r = 100 + Math.random() * 60;
+                p.style.left = `calc(50% + ${Math.cos(a) * r}px)`;
+                p.style.top = `calc(50% + ${Math.sin(a) * r}px)`;
+                p.style.background = pc[~~(Math.random() * 5)];
+                const s = 2 + Math.random() * 3;
+                p.style.width = s + 'px';
+                p.style.height = s + 'px';
+                p.style.setProperty('--hd', (5 + Math.random() * 5) + 's');
+                p.style.setProperty('--hdl', (Math.random() * 6) + 's');
+                p.style.setProperty('--hdx', (Math.random() * 60 - 30) + 'px');
+                p.style.setProperty('--hdy', (-25 - Math.random() * 50) + 'px');
+                stage.appendChild(p);
+            }
+        })();
+
         const colors = {
             chatgpt: 'border-teal-500',
             claude: 'border-orange-500',
