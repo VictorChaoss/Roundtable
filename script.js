@@ -14,8 +14,8 @@ let chatHistory = [];
 let isGenerating = false;
 let shouldStop = false;
 
-// DOM Elements
 const elements = {
+    sidebar: document.querySelector('.sidebar'),
     transcriptContainer: document.getElementById('transcript-container'),
     messageInput: document.getElementById('message-input'),
     sendBtn: document.getElementById('send-btn'),
@@ -29,7 +29,9 @@ const elements = {
     autopilotToggle: document.getElementById('autopilot-toggle'),
     stopBtn: document.getElementById('stop-btn'),
     caContainer: document.getElementById('ca-container'),
-    caText: document.getElementById('ca-text')
+    caText: document.getElementById('ca-text'),
+    mobileTranscriptBtn: document.getElementById('mobile-transcript-btn'),
+    closeTranscriptBtn: document.getElementById('close-transcript-btn')
 };
 
 let placeholderInterval;
@@ -54,6 +56,16 @@ function init() {
             elements.stopBtn.style.display = e.target.checked ? 'flex' : 'none';
         }
     });
+
+    // Mobile Transcript Toggle
+    if (elements.mobileTranscriptBtn && elements.closeTranscriptBtn && elements.sidebar) {
+        elements.mobileTranscriptBtn.addEventListener('click', () => {
+            elements.sidebar.classList.add('open-mobile');
+        });
+        elements.closeTranscriptBtn.addEventListener('click', () => {
+            elements.sidebar.classList.remove('open-mobile');
+        });
+    }
 
     // Settings modal
     elements.settingsBtn.addEventListener('click', () => elements.settingsModal.classList.remove('hidden'));

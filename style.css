@@ -948,7 +948,7 @@ textarea::placeholder {
     gap: 1rem;
 }
 
-/* Mobile Responsiveness - Vertical Chat UI */
+/* Mobile Responsiveness - V2 Side-by-Side UI */
 @media (max-width: 768px) {
     body {
         overflow-y: auto;
@@ -956,49 +956,67 @@ textarea::placeholder {
 
     .app-container {
         flex-direction: column;
-        height: auto;
-        min-height: 100vh;
-        overflow-y: auto;
-        padding: 0.5rem;
-        gap: 0.5rem;
+        height: 100vh;
+        overflow: hidden;
+        /* Prevent body scroll, handle inside containers */
+        padding: 0;
+        gap: 0;
     }
 
-    /* Keep sidebar at top (acting as header/transcript) */
+    /* Make sidebar a full-screen mobile modal, hidden by default */
     .sidebar {
+        position: fixed;
+        top: 100%;
+        /* Hidden below screen */
+        left: 0;
         width: 100%;
-        flex-shrink: 0;
-        max-height: none;
-        border-radius: 12px;
+        height: 100%;
+        max-height: 100%;
+        z-index: 100;
+        border-radius: 0;
+        transition: top 0.3s ease-in-out;
+        background: rgba(15, 17, 26, 0.98);
+        backdrop-filter: blur(20px);
+    }
+
+    .sidebar.open-mobile {
+        top: 0;
     }
 
     .transcript-container {
-        max-height: 150px;
-        /* Smaller transcript on mobile to save room */
+        max-height: calc(100vh - 160px);
+        /* Full height minus headers */
     }
 
-    /* Convert roundtable area to a vertical scrolling container */
+    .mobile-only {
+        display: flex !important;
+    }
+
+    .sidebar-actions {
+        display: flex;
+        gap: 0.5rem;
+    }
+
+    /* Main Area */
     .roundtable-area {
         height: auto;
-        min-height: 60vh;
+        flex-grow: 1;
         overflow-y: auto;
         overflow-x: hidden;
         margin-bottom: 5rem;
-        /* Space for fixed input area */
-        padding-bottom: 2rem;
+        /* Space for input area */
+        padding: 1rem;
     }
 
-    /* Reformat the wrapper into a simple vertical feed */
+    /* Wrapper becomes a top row for the 4 bots */
     .roundtable-wrapper {
         display: flex;
-        flex-direction: column;
-        align-items: center;
-        /* Center the chat messages */
-        justify-content: flex-start;
+        flex-direction: row;
+        justify-content: space-around;
+        align-items: flex-start;
         position: relative;
-        height: auto;
+        height: 100%;
         width: 100%;
-        gap: 1.5rem;
-        /* Space between messages */
         padding-top: 1rem;
         transform: none;
         margin-top: 0;
@@ -1010,110 +1028,118 @@ textarea::placeholder {
         display: none !important;
     }
 
-    /* Format AI Seats to act as chat message containers */
+    /* Format AI Seats as small vertical blocks in a row */
     .ai-seat {
-        position: relative;
-        top: auto !important;
-        bottom: auto !important;
-        left: auto !important;
-        right: auto !important;
-        transform: none !important;
-        width: 100%;
-        max-width: 100%;
+        position: static !important;
+        /* Allow speech bubbles to break out to wrapper */
+        width: 60px;
         height: auto;
         display: flex;
         flex-direction: column;
-        align-items: flex-start;
-        /* Align avatars/bubbles to the left like a normal chat */
-        padding: 0 1rem;
-        transition: none;
-    }
-
-    /* Reformat Avatars to be smaller header icons */
-    .avatar {
-        width: 32px;
-        height: 32px;
-        font-size: 0.9rem;
-        flex-shrink: 0;
-        margin-bottom: 0.5rem;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-    }
-
-    /* Make Gemimi SVG scale properly inside small avatar */
-    .avatar svg {
-        width: 16px;
-        height: 16px;
-    }
-
-    /* Combine Name + Avatar into a header row */
-    .ai-seat {
-        flex-direction: row;
-        flex-wrap: wrap;
-        gap: 0.75rem;
         align-items: center;
+        padding: 0;
+        transition: opacity 0.3s;
+    }
+
+    /* Dim non-speaking seats */
+    .roundtable-wrapper:has(.ai-seat.speaking) .ai-seat:not(.speaking) {
+        opacity: 0.4;
+    }
+
+    .avatar {
+        width: 44px;
+        height: 44px;
+        font-size: 1.2rem;
+        margin-bottom: 4px;
+        border: 2px solid transparent;
+        transition: border-color 0.3s, box-shadow 0.3s;
+    }
+
+    .avatar svg {
+        width: 20px;
+        height: 20px;
+    }
+
+    /* Glow avatars when speaking */
+    #seat-chatgpt.speaking .avatar {
+        border-color: #10a37f;
+        box-shadow: 0 0 15px rgba(16, 163, 127, 0.5);
+    }
+
+    #seat-claude.speaking .avatar {
+        border-color: #d97757;
+        box-shadow: 0 0 15px rgba(217, 119, 87, 0.5);
+    }
+
+    #seat-gemini.speaking .avatar {
+        border-color: #1a73e8;
+        box-shadow: 0 0 15px rgba(26, 115, 232, 0.5);
+    }
+
+    #seat-grok.speaking .avatar {
+        border-color: #ffffff;
+        box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
     }
 
     .ai-badge {
-        font-size: 0.9rem;
-        margin-top: 0;
+        font-size: 0.7rem;
+        margin-top: 4px;
         text-shadow: none;
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
     }
 
     .ai-badge small {
-        display: inline;
-        font-size: 0.7rem;
-        padding-top: 2px;
+        display: none;
+        /* Hide sub-labels to save space */
     }
 
-    /* Format Speech Bubbles as inline chat blocks */
+    /* Shared Speech Bubble Area */
     .speech-bubble {
-        position: relative !important;
-        top: auto !important;
-        bottom: auto !important;
-        left: auto !important;
-        right: auto !important;
+        position: absolute !important;
+        top: 100px !important;
+        /* Position below the avatars */
+        left: 0 !important;
+        right: 0 !important;
         transform: none !important;
         width: 100%;
-        /* Full width minus seat padding */
-        max-width: 95vw;
         max-height: none;
-        padding: 1rem;
-        border-radius: 12px;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-        margin-top: 0.5rem;
-        margin-left: 2.75rem;
-        /* Indent bubble past the avatar */
+        padding: 1.5rem;
+        border-radius: 16px;
         opacity: 0;
         display: none;
-        /* Hide when not active to preserve space */
+        margin: 0;
+        background: rgba(25, 28, 41, 0.95);
+        border: 1px solid var(--panel-border);
     }
 
-    /* When visible, show them cleanly without crazy transforms */
     .speech-bubble.visible {
         opacity: 1;
         display: flex;
-        /* Override the default block */
     }
 
-    /* Force all position variants to behave exactly the same on mobile */
-    .pos-top .speech-bubble.visible,
-    .pos-bottom .speech-bubble.visible,
-    .pos-left .speech-bubble.visible,
-    .pos-right .speech-bubble.visible {
-        transform: none !important;
+    /* Specific Glows for Shared Message Box */
+    #bubble-chatgpt {
+        box-shadow: 0 10px 40px rgba(16, 163, 127, 0.15), inset 0 2px 0 #10a37f;
+    }
+
+    #bubble-claude {
+        box-shadow: 0 10px 40px rgba(217, 119, 87, 0.15), inset 0 2px 0 #d97757;
+    }
+
+    #bubble-gemini {
+        box-shadow: 0 10px 40px rgba(26, 115, 232, 0.15), inset 0 2px 0 #1a73e8;
+    }
+
+    #bubble-grok {
+        box-shadow: 0 10px 40px rgba(255, 255, 255, 0.05), inset 0 2px 0 #ffffff;
     }
 
     .bubble-content {
-        font-size: 0.9rem;
+        font-size: 0.95rem;
         max-height: none;
-        /* Let them grow naturally on mobile */
         overflow-y: visible;
     }
 
-    /* Fix Input area to bottom of screen so it's always accessible */
+    /* Fixed Input Area */
     .input-area {
         position: fixed;
         bottom: 0px;

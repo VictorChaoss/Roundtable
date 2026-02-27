@@ -33,9 +33,15 @@
 
             <div class="sidebar-header">
                 <h2><i class="fa-solid fa-layer-group"></i> Transcript</h2>
-                <button id="settings-btn" class="icon-btn" title="Settings">
-                    <i class="fa-solid fa-gear"></i>
-                </button>
+                <div class="sidebar-actions">
+                    <button id="close-transcript-btn" class="icon-btn mobile-only" style="display: none;"
+                        title="Close Transcript">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                    <button id="settings-btn" class="icon-btn" title="Settings">
+                        <i class="fa-solid fa-gear"></i>
+                    </button>
+                </div>
             </div>
 
             <div class="transcript-container" id="transcript-container">
@@ -118,6 +124,9 @@
                         <button id="stop-btn" class="secondary-btn"
                             style="color: #ef4444; border-color: rgba(239, 68, 68, 0.3); display: none;">
                             <i class="fa-solid fa-stop"></i> Stop
+                        </button>
+                        <button id="mobile-transcript-btn" class="secondary-btn mobile-only" style="display: none;">
+                            <i class="fa-solid fa-layer-group"></i> Transcript
                         </button>
                     </div>
                     <label class="toggle-switch" title="AIs will continue talking automatically">
