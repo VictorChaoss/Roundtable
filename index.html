@@ -447,7 +447,7 @@
 
         function copyLandingCA() {
             const caText = document.getElementById('landing-ca').innerText;
-            if (caText === 'TBD...' || !caText) return;
+            if (!caText) return;
 
             navigator.clipboard.writeText(caText).then(() => {
                 const btnText = document.getElementById('copy-landing-text');
