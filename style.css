@@ -722,7 +722,8 @@ body {
     left: 50%;
     transform: translateX(-50%) translateY(16px);
     width: min(420px, 92%);
-    background: rgba(10, 11, 22, 0.95);
+    background: rgba(15, 17, 26, 0.95);
+    /* Match roundtable darker blue background */
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     border: 1px solid rgba(99, 102, 241, 0.3);
@@ -744,14 +745,36 @@ body {
 
 .consensus-header {
     display: flex;
+    justify-content: space-between;
     align-items: center;
-    gap: 6px;
     font-size: 0.68rem;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 1.5px;
     color: #818cf8;
     margin-bottom: 8px;
+    width: 100%;
+}
+
+.consensus-header div {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.close-consensus-btn {
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    cursor: pointer;
+    font-size: 1rem;
+    padding: 0;
+    transition: color 0.2s;
+}
+
+.close-consensus-btn:hover {
+    color: #ef4444;
+    /* red hover */
 }
 
 .consensus-body {

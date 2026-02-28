@@ -32,9 +32,9 @@
             </div>
 
             <div class="sidebar-header">
-                <h2>
-                    <a href="index.html" class="back-link" title="Back to Home"><i
-                            class="fa-solid fa-arrow-left"></i></a>
+                <h2 style="display: flex; align-items: center; gap: 0.5rem; width: 100%;">
+                    <a href="index.html" class="back-arrow mobile-only" style="display: none; margin-right: 10px;"><i
+                            class="fa-solid fa-house"></i></a>
                     <i class="fa-solid fa-layer-group"></i> Transcript
                 </h2>
                 <div class="sidebar-actions">
@@ -118,7 +118,9 @@
                 <!-- Consensus Panel -->
                 <div class="consensus-panel" id="consensus-panel">
                     <div class="consensus-header">
-                        <i class="fa-solid fa-scale-balanced"></i> Roundtable Consensus
+                        <div><i class="fa-solid fa-scale-balanced"></i> Roundtable Consensus</div>
+                        <button class="close-consensus-btn" onclick="hideConsensus()" title="Dismiss"><i
+                                class="fa-solid fa-xmark"></i></button>
                     </div>
                     <div class="consensus-body" id="consensus-text"><em>Synthesizing...</em></div>
                 </div>
