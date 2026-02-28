@@ -154,6 +154,8 @@ function appendToTranscript(role, text, modelKey = null) {
         html = `<div class="transcript-msg system">${text}</div>`;
     } else if (role === 'user') {
         html = `<div class="transcript-msg user"><strong>You</strong> ${text}</div>`;
+    } else if (role === 'consensus') {
+        html = `<div class="transcript-msg consensus"><strong>⚖ Consensus</strong><br>${parsedText}</div>`;
     } else {
         const aiName = AI_MODELS[modelKey].name;
         html = `<div class="transcript-msg ${modelKey}"><strong>${aiName}</strong> ${parsedText}</div>`;
@@ -174,6 +176,10 @@ function hideAllBubbles() {
     document.querySelectorAll('.ai-seat.speaking').forEach(seat => {
         seat.classList.remove('speaking');
     });
+}
+function hideConsensus() {
+    const panel = document.getElementById('consensus-panel');
+    if (panel) panel.classList.remove('visible');
 }
 
 function showBubble(modelKey, content) {
@@ -224,6 +230,7 @@ async function sendMessage() {
 
     // Hide any existing bubbles
     hideAllBubbles();
+    hideConsensus();
 
     // Reset input
     elements.messageInput.value = '';
@@ -273,6 +280,7 @@ async function runRoundtableCycle() {
 
     try {
         let currentHistory = [...apiHistory];
+        const roundResponses = [];
 
         for (const modelKey of models) {
             if (shouldStop) break; // Break out immediately if Stop was clicked
@@ -303,6 +311,8 @@ async function runRoundtableCycle() {
                 chatHistory.push({ role: 'assistant', content: fullResponseText });
                 currentHistory.push({ role: 'assistant', content: fullResponseText });
 
+                roundResponses.push({ name: AI_MODELS[modelKey].name, text: responseText });
+
                 // Keep the bubble visible for a couple of seconds before the next bot starts typing
                 // Gives the user time to read the roundtable discussion
                 const readingTime = Math.min(Math.max(responseText.length * 10, 1000), 3000);
@@ -314,6 +324,11 @@ async function runRoundtableCycle() {
                 showBubble(modelKey, "*System Error: Failed to connect.*");
                 await new Promise(resolve => setTimeout(resolve, 1500));
             }
+        }
+
+        // Loop is finished. Synthesize consensus!
+        if (!shouldStop && openRouterKey && roundResponses.length >= 2) {
+            await synthesizeConsensus(roundResponses);
         }
 
         // Loop is finished. Should we go again?
@@ -407,10 +422,52 @@ async function fetchAIResponse(modelKey, history) {
     return data.choices[0].message.content;
 }
 
+async function synthesizeConsensus(responses) {
+    const panel = document.getElementById('consensus-panel');
+    const textEl = document.getElementById('consensus-text');
+    if (!panel || !textEl || !openRouterKey) return;
+
+    textEl.innerHTML = '<em>Synthesizing consensus...</em>';
+    panel.classList.add('visible');
+
+    const transcript = responses.map(r => `${r.name}: ${r.text}`).join('\n\n');
+
+    try {
+        const resp = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+            method: 'POST',
+            headers: {
+                "Authorization": `Bearer ${openRouterKey}`,
+                "HTTP-Referer": window.location.href, // Optional
+                "X-Title": "LLM4 Roundtable", // Optional
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                model: 'openai/gpt-4o-mini',
+                max_tokens: 250,
+                messages: [
+                    { role: 'system', content: `You are a neutral synthesis engine. Produce a CONSENSUS SUMMARY of the debate. Format:\n**Agreed:** [what the group converged on]\n**Tension:** [the core disagreement]\n**Synthesis:** [2-sentence integrated conclusion]\nKeep it under 100 words total. Be precise.` },
+                    { role: 'user', content: `Debate transcript:\n\n${transcript}` },
+                ],
+            }),
+        });
+
+        if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+        const data = await resp.json();
+        const summary = data.choices[0].message.content || '';
+
+        textEl.innerHTML = marked.parse(summary);
+        appendToTranscript('consensus', summary);
+    } catch (e) {
+        panel.classList.remove('visible');
+        console.error('Consensus failed:', e);
+    }
+}
+
 function clearChat() {
     if (confirm("Clear the table and start over?")) {
         chatHistory = [];
         hideAllBubbles();
+        hideConsensus();
         elements.transcriptContainer.innerHTML = `<div class="transcript-msg system"><em>Discussion cleared. The table is yours.</em></div>`;
     }
 }
