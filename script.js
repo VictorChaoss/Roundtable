@@ -9,6 +9,7 @@ const AI_MODELS = {
 };
 
 // State
+// To make the API key live for 24 hours, replace the empty string below with your actual 'sk-or-v1-...' key
 let openRouterKey = localStorage.getItem(STORAGE_KEY) || '';
 let chatHistory = [];
 let isGenerating = false;
