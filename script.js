@@ -177,10 +177,6 @@ function hideAllBubbles() {
         seat.classList.remove('speaking');
     });
 }
-function hideConsensus() {
-    const panel = document.getElementById('consensus-panel');
-    if (panel) panel.classList.remove('visible');
-}
 
 function showBubble(modelKey, content) {
     hideAllBubbles();
@@ -230,7 +226,6 @@ async function sendMessage() {
 
     // Hide any existing bubbles
     hideAllBubbles();
-    hideConsensus();
 
     // Reset input
     elements.messageInput.value = '';
@@ -423,12 +418,7 @@ async function fetchAIResponse(modelKey, history) {
 }
 
 async function synthesizeConsensus(responses) {
-    const panel = document.getElementById('consensus-panel');
-    const textEl = document.getElementById('consensus-text');
-    if (!panel || !textEl || !openRouterKey) return;
-
-    textEl.innerHTML = '<em>Synthesizing consensus...</em>';
-    panel.classList.add('visible');
+    if (!openRouterKey) return;
 
     const transcript = responses.map(r => `${r.name}: ${r.text}`).join('\n\n');
 
@@ -455,10 +445,8 @@ async function synthesizeConsensus(responses) {
         const data = await resp.json();
         const summary = data.choices[0].message.content || '';
 
-        textEl.innerHTML = marked.parse(summary);
         appendToTranscript('consensus', summary);
     } catch (e) {
-        panel.classList.remove('visible');
         console.error('Consensus failed:', e);
     }
 }
@@ -467,7 +455,6 @@ function clearChat() {
     if (confirm("Clear the table and start over?")) {
         chatHistory = [];
         hideAllBubbles();
-        hideConsensus();
         elements.transcriptContainer.innerHTML = `<div class="transcript-msg system"><em>Discussion cleared. The table is yours.</em></div>`;
     }
 }
